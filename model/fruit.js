@@ -9,12 +9,9 @@ const quizSchema = new mongoose.Schema({
 })
 
 const nutritionSchema = new mongoose.Schema({
-    //단위: mg
-    sodium: Number,
-    //단위: g
-    protein: Number,
-    //단위: g
-    sugar: Number
+    sodium: { type: Number, required: true },   //단위: mg
+    protein: { type: Number, required: true },  //단위: g
+    sugar: { type: Number, required: true }     //단위: g
 }, {
     versionKey: false
 })
@@ -43,8 +40,7 @@ const schema = new mongoose.Schema({
     title: { type: String, required: true, unique: true },
     grade: { type: Number, required: true, min: 0, max: 2 },
     category: { type: String, required: true },
-    //단위: kcal/100g
-    calorie: { type: Number, required: true },
+    calorie: { type: Number, required: true },  //단위: kcal/100g
     standardInfo: standardSchema,
     intakeInfo: intakeSchema,
     nutritionInfo: nutritionSchema,
