@@ -18,7 +18,9 @@ const commonSenseSchema = new mongoose.Schema({
 const schema = new mongoose.Schema({
     grade: { type: Number, required: true, default: 0, min: 0, max: 2 },
     common_sense_tips: [commonSenseSchema],
-    quizs: [quizs]
+    quizs: [quizSchema]
 }, {
     versionKey: false
 })
+
+module.exports = mongoose.model("common_sense", schema)
