@@ -41,6 +41,7 @@ const schema = new mongoose.Schema({
     grade: { type: Number, required: true, min: 0, max: 2 },
     category: { type: String, required: true },
     calorie: { type: Number, required: true },  //단위: kcal/100g
+    season: { type: String, required: true },
     standard_tip: standardSchema,
     intake_tip: intakeSchema,
     nutrition_tip: nutritionSchema,
