@@ -17,8 +17,9 @@ const nutritionSchema = new mongoose.Schema({
 })
 
 const intakeSchema = new mongoose.Schema({
-    intake_method: String,
+    intake_method: { type: String, required: true },
     chemistry: String,
+    precaution: String,
     diet: String,
     effect: String
 }, {
