@@ -16,15 +16,14 @@ function readAll(req, res) {
 
 function readById(req, res) {
     const id = req.params.id
-    Fruit.findOne({ _id: id }, projection, (err, fruits) => {
+    Fruit.findOne({ _id: id }, projection, (err, fruit) => {
         if(err) {
             return res.sendStatus(400)
         }
-        const count = fruits.length
-        if(count === 0) {
+        if(!fruit) {
             return res.sendStatus(404)
         }
-        return res.status(200).json(fruits)
+        return res.status(200).json(fruit)
     })
 }
 

@@ -24,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use("/fruits", require("./api/fruit/router"))
 app.use("/commonSenses", require("./api/common_sense/router"))
+app.use("/users", require("./api/user/router"))
 
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {

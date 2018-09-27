@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
 
 const quizSchema = new mongoose.Schema({
+    level: Number,
     title: { type: String, required: true },
     correct_answer: { type: String, required: true },
     incorrect_answers: [String]
