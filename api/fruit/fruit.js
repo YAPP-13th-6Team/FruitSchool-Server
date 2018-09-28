@@ -39,6 +39,7 @@ const standardSchema = new mongoose.Schema({
 
 const schema = new mongoose.Schema({
     title: { type: String, required: true, unique: true },
+    image_path: {type: String, required: true, unique: true},
     grade: { type: Number, required: true, min: 0, max: 2 },
     category: { type: String, required: true },
     calorie: { type: Number, required: true },  //단위: kcal/100g
