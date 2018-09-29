@@ -18,12 +18,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 // app.use('/', index);
 // app.use('/users', users);
 
 app.use("/fruits", require("./api/fruit/router"))
-app.use("/commonSenses", require("./api/common_sense/router"))
+app.use("/commonsenses", require("./api/common_sense/router"))
 
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
