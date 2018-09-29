@@ -1,4 +1,4 @@
-const Fruit = require("./fruit")
+const Fruit = require("../../model/fruit")
 const projection = { "standard_tip._id": false, "intake_tip._id": false, "nutrition_tip._id": false }
 
 function readAll(req, res) {
