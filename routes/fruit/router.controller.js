@@ -8,7 +8,8 @@ function readAll(req, res) {
         }
         const count = fruits.length
         if(count === 0) {
-            return res.sendStatus(404)
+            console.log(fruits);
+            return res.sendStatus(403)
         }
         return res.status(200).json(fruits)
     })

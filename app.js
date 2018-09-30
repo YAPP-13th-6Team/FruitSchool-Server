@@ -4,11 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-const database = require("./database")
-
-// var index = require('./routes/index');
-// var users = require('./routes/users');
-
+const database = require("./database");
 var app = express();
 
 // uncomment after placing your favicon in /public
@@ -18,13 +14,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use('/', index);
-// app.use('/users', users);
 
-app.use("/fruits", require("./api/fruit/router"))
-app.use("/commonsenses", require("./api/common_sense/router"))
+app.use('/', require('./routes'))
 
-// // catch 404 and forward to error handler
+// index page, just for testing
+// app.get('/', (req, res) => {
+//   res.send('Hello Fruit School')
+// })
+
+// catch 404 and forward to error handler
 // app.use(function(req, res, next) {
 //   var err = new Error('Not Found');
 //   err.status = 404;
