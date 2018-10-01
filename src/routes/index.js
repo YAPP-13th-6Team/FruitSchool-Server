@@ -5,9 +5,10 @@ const common_sense = require('./common_sense')
 // const auth = require('./auth')
 const user = require('./user')
 
+
 router.use("/fruits", fruit)
 router.use("/commonsenses", common_sense)
 // router.use("/auth", auth)
-router.unsubscribe("/user", user)
+router.use("/user", user)
 
 module.exports = router

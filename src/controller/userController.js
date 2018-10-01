@@ -1,34 +1,45 @@
 const User = require("../../models/user")
-const projection = { "standard_tip._id": false, "intake_tip._id": false, "nutrition_tip._id": false }
+const logic = require("../logic/userLogic")
+const { respondJson, respondOnError } = require('../lib/response');
 
-function readAll(req, res) {
-    User.find({}, projection, (err, users) => {
-        if(err) {
-            return res.sendStatus(400)
-        }
-        const count = users.length
-        if(count === 0) {
-            return res.sendStatus(404)
-        }
-        return res.status(200).json(users)
-    })
+function kakaoSignin(req, res) {
+    try {
+        const result = logic.kakaoSignin(req.headers.authorization, req.body.access_token)
+        respondJson("Success", result, res, 201)
+    }
+    catch (error) {
+        console.log("router ok")
+        respondOnError(error.message, res, error.statusCode)
+    }
 }
 
-function readById(req, res) {
-    const id = req.params.id
-    User.findOne({ _id: id }, projection, (err, users) => {
-        if(err) {
-            return res.sendStatus(400)
-        }
-        const count = users.length
-        if(count === 0) {
-            return res.sendStatus(404)
-        }
-        return res.status(200).json(users)
-    })
-}
-function findOneByUsername(req, res){
-    const id = req.params.id
+function getAllUser(req, res){
+    try {
+        const result = logic.getAllUser(req.headers.authorization)
+        respondJson("Success", result, res, 201)
+    }
+    catch (error) {
+        respondOnError(error.message, res, error.statusCode)
+    }
 }
 
-module.exports = { readAll, readById}
+function getUserPage(req, res){
+    try {
+        const result = logic.getUserPage(req.headers.authorization)
+        respondJson("Success", result, res, 201)
+    }
+    catch (error) {
+        respondOnError(error.message, res, error.statusCode)
+    }
+}
+
+function setUserProfileImage(req,res){
+    try {
+        const result = logic.setUserProfileImage(req.headers.authorization)
+        respondJson("Success", result, res, 201)
+    }
+    catch (error) {
+        respondOnError(error.message, res, error.statusCode)
+    }
+}
+module.exports = { kakaoSignin, getAllUser, getUserPage, setUserProfileImage}
