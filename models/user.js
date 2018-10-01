@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 
+
 const schema = new mongoose.Schema({
     id: { type: Number, required: true, unique: true },
     nickname: String,
@@ -7,5 +8,6 @@ const schema = new mongoose.Schema({
 }, {
     versionKey: false
 })
+
 
 module.exports = mongoose.model("user", schema)

@@ -27,5 +27,8 @@ function readById(req, res) {
         return res.status(200).json(users)
     })
 }
+function findOneByUsername(req, res){
+    const id = req.params.id
+}
 
-module.exports = { readAll, readById }
+module.exports = { readAll, readById}
