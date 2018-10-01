@@ -4,13 +4,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-const database = require("./database")
-
-// var index = require('./routes/index');
-// var users = require('./routes/users');
-
+const config = require('./config/secretKey');
+const database = require("./config/database");
 var app = express();
 
+
+app.set('jwt-token', config.secret);
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -19,14 +18,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/', index);
-// app.use('/users', users);
+app.use('/', require('./src/routes'))
 
-app.use("/fruits", require("./api/fruit/router"))
-app.use("/commonSenses", require("./api/common_sense/router"))
-app.use("/users", require("./api/user/router"))
+// index page, just for testing
+// app.get('/', (req, res) => {
+//   res.send('Hello Fruit School')
+// })
 
-// // catch 404 and forward to error handler
+// catch 404 and forward to error handler
 // app.use(function(req, res, next) {
 //   var err = new Error('Not Found');
 //   err.status = 404;

@@ -1,4 +1,4 @@
-const CommonSense = require("./common_sense")
+const CommonSense = require("../../models/common_sense")
 const projection = { "_id": false }
 
 function readByGrade(req, res) {
