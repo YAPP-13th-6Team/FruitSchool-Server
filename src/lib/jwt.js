@@ -9,7 +9,7 @@ module.exports = {
         };
         const payload = {
             "id" : id,
-            "grade" : grade
+            "grade" : grade,
         };
         let token
         token = jwt.sign(payload, req.app.get('jwt-token'), options);

@@ -1,7 +1,7 @@
 const User = require('../../models/user')
-// const request = require('request-promise');
+const request = require('request-promise');
 const jwt = require('../lib/jwt')
-// const s3 = require('../../config/s3').location
+const s3 = require('../../config/s3').location
 
 function kakaoSignin(jwtToken, accessToken){
      let option = {
@@ -12,6 +12,8 @@ function kakaoSignin(jwtToken, accessToken){
             'Authorization': "Bearer " + accessToken
         }
     }
+    console.log(jwtToken)
+    console.log(accessToken)
     let kakaoUserInfo = request(option);
 
     //jwt 있으면 유효한지 검사 
@@ -48,28 +50,28 @@ function kakaoSignin(jwtToken, accessToken){
                 authorization: newToken
             }
         }
-        // //새로운 회원 
-        // else {
-        //     // insertUser
-        //     console.log("new user")
-        //     let profile_img
-        //     // http -> https
-        //     if(kakaoUserInfo.properties.hasOwnProperty('thumbnail_image')){
-        //         profile_img = 'https' + kakaoUserInfo.properties.thumbnail_image.split('http')[1]
-        //     }
-        //     else{
-        //         profile_img = s3 + '/user/2018/09/26/default_img.png'
-        //     }
-        //     User.create(kakaoUserInfo.id, kakaoUserInfo.properties.nickname, profile_img)
-        //     const newToken = jwt.sign(kakaoUserInfo.id, 0)
-
-        //     return {
-        //         id: kakaoUserInfo.id,
-        //         grade: 0,
-        //         authorization: newToken
-        //     }
-        // }
+        //새로운 회원 
+        else {
+            // insertUser
+            console.log("new user")
+            let profile_img
+            // http -> https
+            if(kakaoUserInfo.properties.hasOwnProperty('thumbnail_image')){
+                profile_img = 'https' + kakaoUserInfo.properties.thumbnail_image.split('http')[1]
+            }
+            else{
+                profile_img = s3 + '/user/2018/10/01/default_img.png'
+            }
+            User.create(kakaoUserInfo.id, kakaoUserInfo.properties.nickname, profile_img)
+            const newToken = jwt.sign(kakaoUserInfo.id, 0)
+            return {
+                id: kakaoUserInfo.id,
+                grade: 0,
+                authorization: newToken
+            }
+        }
     }
 }
+
 
 module.exports = {kakaoSignin}

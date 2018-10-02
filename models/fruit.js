@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const projection = { "standard_tip._id": false, "intake_tip._id": false, "nutrition_tip._id": false }
 
 const quizSchema = new mongoose.Schema({
     title: { type: String, required: true },
@@ -37,7 +38,7 @@ const standardSchema = new mongoose.Schema({
     versionKey: false
 })
 
-const schema = new mongoose.Schema({
+const Fruit = new mongoose.Schema({
     title: { type: String, required: true, unique: true },
     image_path: {type: String, required: true, unique: true},
     grade: { type: Number, required: true, min: 0, max: 2 },
@@ -52,4 +53,28 @@ const schema = new mongoose.Schema({
     versionKey: false
 })
 
-module.exports = mongoose.model("fruit", schema)
+/* find all fruit by using grade */
+Fruit.statics.getAllFruit = function() {
+    return this.find({}, projection).exec()
+}
+
+Fruit.statics.getFruitsList = function(){
+    return this.find({}).select('_id, title, image_path, grade').sort('grade').exec()
+}
+
+/* find one fruit by using id or grade */
+Fruit.statics.getFruitById = function(id) {
+    return this.find({id}, projection).exec()
+}
+
+/* find one fruit by using id or grade */
+Fruit.statics.getFruitByGrade = function(grade) {
+    return this.find({grade}, projection).exec()
+}
+
+/* find one fruit by using id or grade */
+Fruit.statics.getQuizsById = function(id) {
+    return this.findOne({ _id: id }).exec()
+}
+
+module.exports = mongoose.model("Fruit", Fruit)
