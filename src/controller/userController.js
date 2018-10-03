@@ -7,7 +7,7 @@ const s3 = require('../../config/s3').region
 
 /* 카카오톡 로그인 */
 function kakaoSignin(req, res) {
-    User.kakaoSignin(req.headers.authorization, req.body.access_token)
+    logic.kakaoSignin(req.headers.authorization, req.body.access_token)
     .then(
         result => {
             if(!result) throw new Error('quizs not found')
