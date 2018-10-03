@@ -3,6 +3,7 @@ const projection = { "standard_tip._id": false, "intake_tip._id": false, "nutrit
 
 const quizSchema = new mongoose.Schema({
     title: { type: String, required: true },
+    difficulty: {type: String, required: true},
     correct_answer: { type: String, required: true },
     incorrect_answers: [String]
 }, {
@@ -58,8 +59,12 @@ Fruit.statics.getAllFruit = function() {
     return this.find({}, projection).exec()
 }
 
-Fruit.statics.getFruitsList = function(){
-    return this.find({}).select('_id, title, image_path, grade').sort('grade').exec()
+Fruit.statics.getFruitsList = function(title){
+    if(title){
+        console.log(title)
+        return this.find({title}).select('_id title image_path grade').sort('grade').exec()
+    }
+    return this.find({}).select('_id title image_path grade').sort('grade').exec()
 }
 
 /* find one fruit by using id or grade */
@@ -74,7 +79,7 @@ Fruit.statics.getFruitByGrade = function(grade) {
 
 /* find one fruit by using id or grade */
 Fruit.statics.getQuizsById = function(id) {
-    return this.findOne({ _id: id }).exec()
+    return this.findOne({ _id: id }).select('_id title quizs').exec()
 }
 
 module.exports = mongoose.model("Fruit", Fruit)

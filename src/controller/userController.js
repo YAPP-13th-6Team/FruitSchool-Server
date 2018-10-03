@@ -10,8 +10,9 @@ function kakaoSignin(req, res) {
     logic.kakaoSignin(req.headers.authorization, req.body.access_token)
     .then(
         result => {
-            if(!result) throw new Error('quizs not found')
-            console.log(result)
+            console.log("result" + result)
+            if(!result) throw new Error('not found')
+            
             respondJson("Success kakaoSignin ", result, res, 201)
         }
     ).catch(
@@ -62,23 +63,49 @@ function updateGrade(req, res) {
     console.log(id)
 
     // const grade = req.body.grade // 높여줄 등급  
+
+
+    // User.getUserById(id)
+    // .then(
+    //     result => {
+    //         if(!result) throw new Error('user not found')
+    //         console.log(result)
+    //         upgrade = (result.grade + 1)
+    //         if(upgrade >= 3 || upgrade < 0){
+    //             throw new Error('user already has max grade')
+    //         }
+    //         User.updateGrade(id, upgrade)
+    //         .then(
+    //             respondJson("Success update grade to " + (result.grade + 1), (result.grade + 1), res, 201)
+    //         ).catch((err) => { respondOnError(err.message, res, err.statusCode)})
+    //         }
+    // ).catch(
+    //     (err) => { respondOnError(err.message, res, err.statusCode)}
+    // )
+
+
+    let upgrade;
     User.getUserById(id)
-    .then(
-        result => {
-            if(!result) throw new Error('user not found')
-            console.log(result)
-            upgrade = (result.grade + 1)
-            if(upgrade >= 3 || upgrade < 0){
-                throw new Error('user already has max grade')
-            }
-            User.updateGrade(id, upgrade)
-            .then(
-                respondJson("Success update grade to " + (result.grade + 1), (result.grade + 1), res, 201)
-            ).catch((err) => { respondOnError(err.message, res, err.statusCode)})
-            }
-    ).catch(
-        (err) => { respondOnError(err.message, res, err.statusCode)}
-    )
+    .then((result) =>{
+        console.log(id + " " + result.grade)
+        upgrade = (result.grade+1)
+        return User.updateGrade(id, upgrade)
+    })
+    .then((updatedResult) => {
+        console.log(updatedResult)
+        respondJson("Success update grade to " + upgrade, upgrade, res, 201)
+    })
+    .catch((err) => { 
+        respondOnError(err.message, res, err.statusCode)
+    })
+
+    // User.updateGrade(id, upgrade)
+    // .then((result)=>{
+    //     respondJson("Success update grade to " + updatedResult.grade, updatedResult.grade, res, 201)
+    // }).catch((err)=>{
+    //     respondOnError(err.message, res, err.statusCode)
+    // })
+
 }
 
 /* 마이페이지 ok.*/

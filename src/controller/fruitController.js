@@ -88,10 +88,40 @@ function getQuizsById(req, res) {
         result => {
             if(!result) throw new Error('quizs not found')
             console.log(result)
-            respondJson("Success get guiz " + result.title, result.quizs, res, 201)
+            respondJson("Success get guiz " + result.title, result, res, 201)
         }
     ).catch(
         (err) => { respondOnError(err.message, res, 500)}
+    )
+}
+
+/* 승급문제 받아오기  */
+function getExamsByGrade(req, res){
+    const Common_sense = require("../../models/common_sense")
+    id = req.params.id
+    Fruit.getQuizsById(id)
+    .then(
+        result => {
+            if(!result) throw new Error('quizs not found')
+            console.log(result)
+            respondJson("Success get guiz " + result.title, result, res, 201)
+        }
+    ).catch(
+        (err) => { respondOnError(err.message, res, 500)}
+    )
+}
+
+function getFruitsListByTitle(req, res){
+    title = req.params.title
+    Fruit.getFruitsList(title)
+    .then(
+        result => {
+            if(!result) throw new Error('fruit not found')
+            console.log(result)
+            respondJson("Success get fruit list search by title", result, res, 201)
+        }
+    ).catch(
+        (err) => { respondOnError(err.message, res, 404)}
     )
 }
 module.exports = { 
@@ -99,5 +129,7 @@ module.exports = {
     getFruitsList,
     //  getAllFruitsOrByGrade, 
     //  getFruitsById 
-     getQuizsById
+     getQuizsById,
+     getExamsByGrade,
+     getFruitsListByTitle
     }
