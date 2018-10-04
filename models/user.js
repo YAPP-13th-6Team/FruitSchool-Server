@@ -1,5 +1,4 @@
 const mongoose = require("mongoose")
-const projection = { "standard_tip._id": false, "intake_tip._id": false, "nutrition_tip._id": false }
 
 const User = new mongoose.Schema({
     nickname: String,
@@ -29,7 +28,7 @@ User.statics.getUserByNickname = function(nickname) {
 /* find all user */
 User.statics.getAllUser = function(){
     console.log("User getAllUser")
-    return this.find({}, projection).exec()
+    return this.find({}).exec()
 }
 
 /* create one user */
