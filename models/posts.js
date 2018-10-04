@@ -5,6 +5,8 @@ const Post = new mongoose.Schema({
     content: {type: String, trim: true, required: true},
     createdAt: {type: Date, default: Date.now},
     heart: [{type: Schema.Types.ObjectId, ref: 'user'}],
+    tag:[{type:String, required: false}],
+    post_image: [{type: String, required: false}],
     comments: [{
         author: {type: Schema.Types.ObjectId, ref: 'user'},
         content: {type: String, required: true},
