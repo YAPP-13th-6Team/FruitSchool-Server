@@ -120,7 +120,7 @@ function getUserPage(req, res){
         result => {
             if(!result) throw new Error('quizs not found')
             console.log(result)
-            respondJson("Success get user" + id, result, res, 201)
+            respondJson("Success get user " + id, result, res, 201)
         }
     ).catch(
         (err) => { respondOnError(err.message, res, err.statusCode)}
