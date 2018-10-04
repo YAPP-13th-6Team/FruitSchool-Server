@@ -29,6 +29,25 @@ function getFruitsList(req, res){
         (err) => { respondOnError(err.message, res, 404)}
     )
 }
+
+/* 특정 id의 과일 가져오기 */
+function getFruitsById(req, res) {
+    const id = req.params.id
+    Fruit.find({ _id: id }, projection, (err, fruits) => {
+        if(err) {
+            return res.sendStatus(400)
+        }
+        const count = fruits.length
+        if(count === 0) {
+            return res.sendStatus(404)
+        }
+        let result = {
+            message: "Success get fruit by id",
+            data: fruits
+        }
+        return res.status(200).json(result)
+    })
+}
 // function getAllFruitsOrByGrade(req, res) {
 //     const grade = req.query.grade
 //     if(grade) {
@@ -97,18 +116,57 @@ function getQuizsById(req, res) {
 
 /* 승급문제 받아오기  */
 function getExamsByGrade(req, res){
-    const Common_sense = require("../../models/common_sense")
-    id = req.params.id
-    Fruit.getQuizsById(id)
-    .then(
-        result => {
-            if(!result) throw new Error('quizs not found')
-            console.log(result)
-            respondJson("Success get guiz " + result.title, result, res, 201)
+    const grade = req.params.grade
+    const CommonSense = require("../../models/common_sense")
+    let quizsResult = []
+    CommonSense.find({ grade }, projection, (err, commonSenses) => {
+        if(err) {
+            return res.sendStatus(400)
         }
-    ).catch(
-        (err) => { respondOnError(err.message, res, 500)}
-    )
+        if(!commonSenses) {
+            return res.sendStatus(404)
+        }
+        commonSenses.forEach(commonSense => {
+            commonSense.quizs.forEach(quiz => {
+                quizsResult.push(quiz)
+            })
+        })
+        Fruit.find({ grade }, projection, (err, fruits) => {
+            if(err) {
+                return res.sendStatus(400)
+            }
+            if(!fruits) {
+                return res.sendStatus(404)
+            }
+            fruits.forEach(fruit => {
+                fruit.quizs.forEach(quiz => {
+                    quizsResult.push(quiz)
+                })
+            })
+            const count = quizsResult.length
+            for(let i=count; i; i-=1) {
+                let j = Math.floor(Math.random() * i)
+                let x = quizsResult[i - 1]
+                quizsResult[i - 1] = quizsResult[j]
+                quizsResult[j] = x
+            }
+            let result = {
+                message: "Success get exam by grade",
+                data: quizsResult
+            }
+            return res.status(200).json(result)
+        })
+    })
+    // Fruit.getQuizsById(id)
+    // .then(
+    //     result => {
+    //         if(!result) throw new Error('quizs not found')
+    //         console.log(result)
+    //         respondJson("Success get guiz " + result.title, result, res, 201)
+    //     }
+    // ).catch(
+    //     (err) => { respondOnError(err.message, res, 500)}
+    // )
 }
 
 function getFruitsListByTitle(req, res){
@@ -128,7 +186,7 @@ module.exports = {
     getAllFruit,
     getFruitsList,
     //  getAllFruitsOrByGrade, 
-    //  getFruitsById 
+     getFruitsById, 
      getQuizsById,
      getExamsByGrade,
      getFruitsListByTitle

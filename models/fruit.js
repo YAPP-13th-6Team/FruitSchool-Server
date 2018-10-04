@@ -2,6 +2,7 @@ const mongoose = require("mongoose")
 const projection = { "standard_tip._id": false, "intake_tip._id": false, "nutrition_tip._id": false }
 
 const quizSchema = new mongoose.Schema({
+    level: Number,
     title: { type: String, required: true },
     difficulty: {type: String, required: true},
     correct_answer: { type: String, required: true },
