@@ -10,7 +10,7 @@ const comment = require('./comments')
 router.use("/fruits", fruit)
 router.use("/commonsenses", common_sense)
 router.use("/users", user)
-router.use("/posts", post)
-router.use("/comments", comment)
+// router.use("/posts", post)
+// router.use("/comments", comment)
 
 module.exports = router
