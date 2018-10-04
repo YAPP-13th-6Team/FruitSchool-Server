@@ -1,12 +1,12 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose"), Schema = mongoose.Schema;
 
 const Post = new mongoose.Schema({
-    author: {type: Schema.Types.ObjectId, ref: 'user'},
-    content: {type: String, trim: true, required: true},
+    author: {type: Schema.Types.ObjectId, ref: 'user', required: true},
+    content: {type: String, required: true},
     createdAt: {type: Date, default: Date.now},
     heart: [{type: Schema.Types.ObjectId, ref: 'user'}],
     comments: [{
-        author: {type: Schema.Types.ObjectId, ref: 'user'},
+        author: {type: Schema.Types.ObjectId, ref: 'user', required: true},
         content: {type: String, required: true},
         createdAt: {type: Date, default: Date.now},
     }]
