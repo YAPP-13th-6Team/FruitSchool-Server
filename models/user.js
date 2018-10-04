@@ -37,11 +37,11 @@ User.statics.createUser = function(nickname, profile_image){
         nickname, profile_image,
         grade: 0
     })
-    return user.save()
+    return user.save() 
 }
 
 User.statics.updateGrade = function(id, upgrade){
-    return this.updateOne({ _id: id}, { $set: { grade: upgrade }, new: true  })
+    return this.updateOne({ _id: id}, { $set: { grade: upgrade }}, {new: true  })
     // return this.findAndModify({ query: { _id: id }, update: { $set: { grade: 0 } }, new: true });
 }
 
