@@ -6,6 +6,6 @@ const user = require('./user')
 
 router.use("/fruits", fruit)
 router.use("/commonsenses", common_sense)
-router.unsubscribe("/user", user)
+router.use("/users", user)
 
 module.exports = router

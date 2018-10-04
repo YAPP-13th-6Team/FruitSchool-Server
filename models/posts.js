@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const schema = new mongoose.Schema({
+const Post = new mongoose.Schema({
     author: {type: Schema.Types.ObjectId, ref: 'user'},
     content: {type: String, trim: true, required: true},
     createdAt: {type: Date, default: Date.now},
@@ -14,4 +14,4 @@ const schema = new mongoose.Schema({
     versionKey: false
 })
 
-module.exports = mongoose.model('Post', schema)
+module.exports = mongoose.model('Post', Post)
