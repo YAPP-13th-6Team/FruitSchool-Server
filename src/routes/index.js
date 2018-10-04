@@ -8,6 +8,6 @@ const community = require('./community')
 router.use("/fruits", fruit)
 router.use("/commonsenses", common_sense)
 router.use("/users", user)
-router.use("posts", community)
+router.use("/posts", community)
 
 module.exports = router
