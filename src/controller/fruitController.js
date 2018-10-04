@@ -33,15 +33,19 @@ function getFruitsList(req, res){
 /* 특정 id의 과일 가져오기 */
 function getFruitsById(req, res) {
     const id = req.params.id
-
-    Fruit.findOne({ _id: id }, { "quizs": false }, (err, fruit) => {
+    Fruit.find({ _id: id }, projection, (err, fruits) => {
         if(err) {
             return res.sendStatus(400)
         }
-        if(!fruit) {
+        const count = fruits.length
+        if(count === 0) {
             return res.sendStatus(404)
         }
-        return res.status(200).json(fruit)
+        let result = {
+            message: "Success get fruit by id",
+            data: fruits
+        }
+        return res.status(200).json(result)
     })
 }
 // function getAllFruitsOrByGrade(req, res) {
@@ -146,7 +150,11 @@ function getExamsByGrade(req, res){
                 quizsResult[i - 1] = quizsResult[j]
                 quizsResult[j] = x
             }
-            return res.status(200).json(quizsResult)
+            let result = {
+                message: "Success get exam by grade",
+                data: quizsResult
+            }
+            return res.status(200).json(result)
         })
     })
     // Fruit.getQuizsById(id)
