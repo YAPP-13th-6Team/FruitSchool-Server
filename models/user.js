@@ -8,7 +8,14 @@ const User = new mongoose.Schema({
 {
     versionKey: false
 })
-
+User.statics.isUser = function(id){
+    this.findOne({ _id: id }, (err, user) => {
+        if(user) {
+            return 1
+        }
+            return 0
+    })
+}
 /* find one user by using id */
 User.statics.getUserById = function(id) {
     return this.findOne({ _id:id }).exec()
@@ -35,8 +42,8 @@ User.statics.createUser = function(nickname, profile_image){
 }
 
 User.statics.updateGrade = function(id, upgrade){
-    return this.updateOne({ _id: id}, { $set: { grade: upgrade } })
-    return this.findAndModify({ query: { _id: id }, update: { $set: { grade: upgrade } }, new: true });
+    return this.updateOne({ _id: id}, { $set: { grade: upgrade }, new: true  })
+    // return this.findAndModify({ query: { _id: id }, update: { $set: { grade: 0 } }, new: true });
 }
 
 /* 한결쓰 머지 부분 */

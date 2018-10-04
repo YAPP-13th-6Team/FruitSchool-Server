@@ -12,7 +12,7 @@ module.exports = {
             "grade" : grade,
         };
         let token
-        token = jwt.sign(payload, req.app.get('jwt-token'), options);
+        token = jwt.sign(payload, secretKey, options);
         return token;
     },
 

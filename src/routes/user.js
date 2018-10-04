@@ -7,19 +7,18 @@ const userCheck = require('../middleware/userCheck')
 
 /* 한결 */ 
 router.get("/", controller.getAllUser) // 모든 유저 조회 ok
-
-/* 테스트용 createUser 실제로는 라우터에서 직접 접근이 아닌 카오톡 로그인을 통해 user 생성 ok */
-router.post("/", controller.createUser)  
-
-// router.post("/duplicated", controller.checkDuplicatedUser)
-router.post("/grade", controller.updateGrade)  // ㄴㄴ 
-
 /* 다영 */
 router.post('/kakao/signin', controller.kakaoSignin) //1. 로그인 ㄴㄴ
 
+/* 테스트용 createUser 실제로는 라우터에서 직접 접근이 아닌 카오톡 로그인을 통해 user 생성 ok */
+router.post("/", controller.createUser)  //ok
+
+// router.post("/duplicated", controller.checkDuplicatedUser)
+router.post("/grade", controller.updateGrade)  // ok
+
 /* 승연 */
 // router.get('/mypage', userCheck.check, controller.getUserPage) // 17. 마이페이지 
-router.get("/mypage/:id", controller.getUserPage)
+router.get("/mypage/:id", controller.getUserPage) //마이페이지 ok
 // router.post('/edit', userCheck.check, upload.array('profile_img'), controller.setUserProfile) // 마이페이지 수정 
 
 module.exports = router
