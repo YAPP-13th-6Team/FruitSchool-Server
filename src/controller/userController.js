@@ -6,26 +6,36 @@ const s3 = require('../../config/s3').region
 /* status CODE 다시 정리 필요 */
 
 /* 카카오톡 로그인 */
-function kakaoSignin(req, res) {
-    logic.kakaoSignin(req.headers.authorization, req.body.access_token)
-    .then(
-        result => {
-            console.log("result" + result)
-            if(!result) throw new Error('not found')
+// function kakaoSignin(req, res) {
+    // logic.kakaoSignin(req.headers.authorization, req.body.access_token)
+    // .then(
+    //     result => {
+    //         console.log("result" + result)
+    //         if(!result) throw new Error('not found')
             
-            respondJson("Success kakaoSignin ", result, res, 201)
-        }
-    ).catch(
-        (err) => { respondOnError(err.message, res, err.statusCode)}
-    )
+    //         respondJson("Success kakaoSignin ", result, res, 201)
+    //     }
+    // ).catch(
+    //     (err) => { respondOnError(err.message, res, err.statusCode)}
+    // )
+// }
+async function kakaoSignin (req, res) {
+    try {
+        const result = await logic.kakaoSignin(req.headers.authorization, req.body.access_token)
+        respondJson("Success kakaoSignin ", result, res, 201)
+    }
+    catch (error) {
+        respondOnError(error.message, res, error.statusCode)
+    }
 }
 
 /* 테스트용 createUser 실제로는 라우터에서 직접 접근이 아닌 카오톡 로그인을 통해 user 생성 */
 function createUser(req, res){
+    let id = req.body.id
     let nickname = req.body.nickname
     let profile_image = s3 + "/user/2018/10/01/default_img.png"
 
-    User.createUser(nickname, profile_image)
+    User.createUser(id, nickname, profile_image)
     .then(
         result => {
             if(!result) throw new Error('quizs not found')

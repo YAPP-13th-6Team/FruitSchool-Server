@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
 
 const User = new mongoose.Schema({
+    id: {type: String, required: true, unique: true},
     nickname: String,
     grade: { type: Number, required: true, default: 0, min: 0, max: 2 },
     profile_image: {type: String, required: true, unique: true}},
@@ -32,12 +33,14 @@ User.statics.getAllUser = function(){
 }
 
 /* create one user */
-User.statics.createUser = function(nickname, profile_image){
+User.statics.createUser = function(id, nickname, profile_image){
     const user = new this({
-        nickname, profile_image,
+        id:id, 
+        nickname: nickname, 
+        profile_image: profile_image,
         grade: 0
     })
-    return user.save() 
+    return user.save()
 }
 
 User.statics.updateGrade = function(id, upgrade){
