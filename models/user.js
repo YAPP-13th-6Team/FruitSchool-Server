@@ -1,15 +1,16 @@
 const mongoose = require("mongoose")
 
 const User = new mongoose.Schema({
-    user_id: String, 
+    user_id: String,
     nickname: String,
     grade: { type: Number, required: true, default: 0, min: 0, max: 2 },
-    profile_image: {type: String, required: true, unique: true}},
+    profile_image: {type: String, required: true}},
 {
     versionKey: false
 })
+
 User.statics.isUser = function(id){
-    this.findOne({ _id: id }, (err, user) => {
+    this.find({ user_id: id }, (err, user) => {
         if(user) {
             return 1
         }
@@ -32,14 +33,27 @@ User.statics.getAllUser = function(){
     return this.find({}).exec()
 }
 
-/* create one user */
+// /* test용 create one user */
+// User.statics.createUser = function(user_id, nickname, profile_image){
+//     // console.log(user_id, nickname, profile_image)
+//     const user = new this({
+//         user_id, 
+//         nickname, 
+//        profile_image,
+//         grade: 0
+//     })
+//     return user.save()
+// }
+
+/* 카카오톡 로그인 create one user */
 User.statics.createUser = function(user_id, nickname, profile_image){
     console.log(user_id, nickname, profile_image)
     const user = new this({
         user_id, 
         nickname, 
-       profile_image,
-        grade: 0
+        grade: 0,
+       profile_image
+
     })
     return user.save()
 }

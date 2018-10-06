@@ -2,6 +2,7 @@ const User = require("../../models/user")
 const logic = require("../logic/userLogic")
 const { respondJson, respondOnError } = require('../lib/response');
 const s3 = require('../../config/s3').region
+const jwt = require('../lib/jwt')
 
 /* status CODE 다시 정리 필요 */
 
@@ -22,6 +23,7 @@ const s3 = require('../../config/s3').region
 async function kakaoSignin (req, res) {
     try {
         const result = await logic.kakaoSignin(req.headers.authorization, req.body.access_token)
+        console.log(result)
         respondJson("Success kakaoSignin ", result, res, 201)
     }
     catch (error) {
@@ -29,13 +31,25 @@ async function kakaoSignin (req, res) {
     }
 }
 
+function testSignin(req, res){
+    try {
+        const token =  jwt.sign("aa", "0")
+        console.log(token)
+        respondJson("success", token, res, 201)
+    }
+    catch (error) {
+        respondOnError(error.message, res, error.statusCode)
+
+    }
+}
+
 /* 테스트용 createUser 실제로는 라우터에서 직접 접근이 아닌 카오톡 로그인을 통해 user 생성 */
 function createUser(req, res){
-    const user_id = req.body.user_id
+    // const user_id = req.body.user_id
     const nickname = req.body.nickname
     const profile_image = s3 + "/user/2018/10/01/default_img.png"
 
-    User.createUser(user_id, nickname, profile_image)
+    User.createUser(nickname, profile_image)
     .then(
         result => {
             if(!result) throw new Error('quizs not found')
@@ -121,7 +135,7 @@ function updateGrade(req, res) {
 function getUserPage(req, res){
     /* test에서는 jwt대신 body로 id 받아옴 */
     const id = req.params.id
-    // const id = req.user.id //추후 userCheck (jwtToken verify) 미들웨어 사용하면 이걸로 !
+    // const id = req.user.user_id //추후 userCheck (jwtToken verify) 미들웨어 사용하면 이걸로 !
     console.log(id)
 
     User.getUserById(id)
@@ -152,7 +166,8 @@ module.exports = {
     createUser,
     getAllUser,
     updateGrade,
-    getUserPage
+    getUserPage,
+    testSignin
     // setUserProfileImage
 }
 

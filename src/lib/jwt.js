@@ -8,7 +8,7 @@ module.exports = {
             expiresIn : 60 * 60 * 24 * 1095 // 1095 days
         };
         const payload = {
-            "id" : id,
+            "user_id" : user_id,
             "grade" : grade,
         };
         let token
@@ -22,6 +22,7 @@ module.exports = {
         if(!decoded) {
             return -1;
         }else {
+            console.log(decoded)
             return decoded;
         }
     }
