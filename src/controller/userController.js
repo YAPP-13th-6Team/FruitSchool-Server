@@ -2,6 +2,7 @@ const User = require("../../models/user")
 const logic = require("../logic/userLogic")
 const { respondJson, respondOnError } = require('../lib/response');
 const s3 = require('../../config/s3').region
+const token = require('../lib/jwt')
 
 /* status CODE 다시 정리 필요 */
 
@@ -22,7 +23,16 @@ const s3 = require('../../config/s3').region
 async function kakaoSignin (req, res) {
     try {
         const result = await logic.kakaoSignin(req.headers.authorization, req.body.access_token)
-        respondJson("Success kakaoSignin ", result, res, 201)
+        await respondJson("Success kakaoSignin ", result, res, 201)
+    }
+    catch (error) {
+        respondOnError(error.message, res, error.statusCode)
+    }
+}
+async function token_test(req, res){
+    try {
+        const result = await token.verify('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTMwNTMzMzMxLCJjb21wYW55IjowLCJpYXQiOjE1Mzg4MjYzNjgsImV4cCI6MTYzMzQzNDM2OH0.BLX6AcfNISr6HrethakFzvmE529j9VIqlG2yok0j7Jc')
+        await respondJson("Success ", result, res, 201)
     }
     catch (error) {
         respondOnError(error.message, res, error.statusCode)
@@ -148,7 +158,8 @@ module.exports = {
     createUser,
     getAllUser,
     updateGrade,
-    getUserPage
+    getUserPage,
+    token_test
     // setUserProfileImage
 }
 

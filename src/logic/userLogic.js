@@ -146,11 +146,10 @@ kakaoSignin : async function(jwtToken, accessToken){
             console.log("kakaoUserInfo : " + kakaoUserInfo.id)
             console.log(dbUserInfo)
 
-            if (dbUserInfo === 1) {
+            if (dbUserInfo.length != 0) {
                 // console.log("dbUserInfo" + dbUserInfo)
                 console.log("other device login")
                 const newToken = jwt.sign(kakaoUserInfo.id, dbUserInfo.grade)
-            
                 return {
                     id: kakaoUserInfo.id,
                     grade: dbUserInfo.grade,
@@ -171,28 +170,28 @@ kakaoSignin : async function(jwtToken, accessToken){
                 }
                 console.log(profile_img)
 
-                User.createUser(kakaoUserInfo.id, kakaoUserInfo.properties.nickname, profile_img)
-                .then((result) => {
-                    return newToken = jwt.sign(kakaoUserInfo.id, 0)
-                }).then((result) => {
-                    console.log(result)
-                    return {
-                        id: kakaoUserInfo.id,
-                        grade: 0,
-                        authorization: newToken
-                    }
-                }).catch(
-                    (err) => {return err}
-                )
+                // User.createUser(kakaoUserInfo.id, kakaoUserInfo.properties.nickname, profile_img)
+                // .then((result) => {
+                //     return newToken = jwt.sign(kakaoUserInfo.id, 0)
+                // }).then((result) => {
+                //     console.log(result)
+                //     return {
+                //         id: kakaoUserInfo.id,
+                //         grade: 0,
+                //         authorization: newToken
+                //     }
+                // }).catch(
+                //     (err) => {return err}
+                // )
 
-                // await User.createUser(kakaoUserInfo.id, kakaoUserInfo.properties.nickname, profile_img)
+                await User.createUser(kakaoUserInfo.id, kakaoUserInfo.properties.nickname, profile_img)
                 
-                // const newToken = jwt.sign(kakaoUserInfo.id, 0)
-                // return {
-                //     id: kakaoUserInfo.id,
-                //     grade: 0,
-                //     authorization: newToken
-                // }
+                const newToken = jwt.sign(kakaoUserInfo.id, 0)
+                return {
+                    id: kakaoUserInfo.id,
+                    grade: 0,
+                    authorization: newToken
+                }
             }
         }
     }
