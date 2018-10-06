@@ -3,7 +3,7 @@ const router = express.Router()
 const controller = require("../controller/userController")
 /* userCheck = 모든 요청마다 jwtToken(access_token)으로 사용자 인증해주는 미들웨어_테스트 단계에서는 사용 안함. */
 const userCheck = require('../middleware/userCheck')
-// const upload = require('../lib/s3.js').getMulter('user');
+const upload = require('../lib/s3.js').getMulter('user');
 
 /* 한결 */ 
 router.get("/", controller.getAllUser) // 모든 유저 조회 ok

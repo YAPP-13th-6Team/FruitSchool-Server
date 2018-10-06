@@ -1,4 +1,5 @@
 const Fruit = require("../../models/fruit")
+const ObjectId = require("mongoose").Types.ObjectId;
 const { respondJson, respondOnError } = require('../lib/response');
 const projection = { "standard_tip._id": false, "intake_tip._id": false, "nutrition_tip._id": false }
 
@@ -34,20 +35,30 @@ function getFruitsList(req, res){
 function getFruitsById(req, res) {
     const id = req.params.id
     // const id = req.user.id
-    Fruit.find({ _id: id }, projection, (err, fruits) => {
-        if(err) {
-            return res.sendStatus(400)
-        }
-        const count = fruits.length
-        if(count === 0) {
-            return res.sendStatus(404)
-        }
-        let result = {
-            message: "Success get fruit by id",
-            data: fruits
-        }
-        return res.status(200).json(result)
-    })
+    Fruit.aggregate([
+        { $match: {_id: ObjectId(id) }},
+        { $project: {"standard_tip._id": false, "intake_tip._id": false, "nutrition_tip._id": false}}
+    ]).then(result => {
+        // res.status(200).json(result)
+        respondJson("Success get fruits " + id, result, res, 201)
+    }).catch(
+        (err) => { respondOnError(err.message, res, 500)}
+    )
+    // Fruit.findOne({ _id: id }, projection, (err, fruits) => {
+    //     if(err) {
+    //         return res.sendStatus(400)
+    //     }
+    //     const count = fruits.length
+    //     if(count === 0) {
+    //         return res.sendStatus(404)
+    //     }
+    //     let result = {
+    //         message: "Success get fruit by id",
+    //         data: fruits
+    //     }
+    //     console.log(fruits)
+    //     return res.status(200).json(result)
+    // })
 }
 // function getAllFruitsOrByGrade(req, res) {
 //     const grade = req.query.grade
