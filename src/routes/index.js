@@ -14,5 +14,4 @@ router.use("/users", user)
 router.use("/comments", comment)
 router.use("/posts", community)
 
-
 module.exports = router
