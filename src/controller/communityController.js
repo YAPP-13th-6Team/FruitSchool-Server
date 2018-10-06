@@ -2,8 +2,6 @@ const Posts = require("../../models/posts");
 const Users = require("../../models/user");
 const ObjectId = require("mongoose").Types.ObjectId;
 const { respondJson, respondOnError} = require('../lib/response');
-const projection = { "heart": false };
-const list_projection = { "heart": false , "comments": false };
 
 // 전체 글 가져오기 우선 ok(댓글 개수는 우선 가라로)
 function getAllPosts(req, res) {
@@ -12,14 +10,19 @@ function getAllPosts(req, res) {
         Posts.aggregate([
             {
                 $lookup: {
-                "from": Users.collection.name,
-                "localField": "author",
-                "foreignField": "_id",
-                "as": "author_info"
+                    "from": Users.collection.name,
+                    "localField": "author",
+                    "foreignField": "_id",
+                    "as": "author_info"
                 }
             }, {
                 $sort: {
                     createdAt: -1
+                }
+            },
+            {
+                $project: {
+                    heart: false , comments: false, tag: false, author: false
                 }
             }
         ])
@@ -42,6 +45,11 @@ function getAllPosts(req, res) {
                 $sort: {
                     likes: -1
                 }
+            },
+            {
+                $project: {
+                    heart: false , comments: false, tag: false, author: false
+                }
             }
         ])
         .exec(function(err, result) {
@@ -54,18 +62,16 @@ function getAllPosts(req, res) {
     
 }
 
-// 글 작성하기
+// 글 작성하기 -- 내 프로필 받아와야함....
 function createPost(req, res) {
     var post = new Posts({
       author: ObjectId(req.body.userId),
       content: req.body.content,
-      tag: req.body.tags,
       post_image: req.body.images,
     });
-
     post.save()
     .then(item => {
-        respondJson("Success", item, res, 200);
+        respondJson(`Success post ${item._id}`, item, res, 200);
     }).catch(err => {
         respondOnError(err.message, res, err.statusCode);
     }); 
@@ -80,7 +86,8 @@ function deletePost(req, res) {
     if (post.author === userId) { //????
         Posts.findByIdAndDelete(req.params.id)
         .then( result => {
-            respondJson("Success", result, res, 200);
+            const message = "Success delete posts";
+            res.status(200).json({"message": message})
         }).catch( err => {
             respondOnError(err.message, res, err.statusCode);
         });
@@ -116,17 +123,16 @@ function getPost(req, res) {
 				"foreignField": "_id",
 				"as": "comments_info",
             }
-		},
+        },
 		{
 			$group: {
-				"_id": "$_id",
-                "author": { $first: "$author" },
+                "_id": "$_id",
+                "author_info": { $first: "$author_info" },
 				"createdAt": {$first: "$createdAt"},
 				"likes": {$first: "$likes"},
 				"post_image": { $first: "$post_image" },
                 "comment_count": { $first: "$comment_count" },
-				"author_info": { $first: "$author_info" },
-				"content": { $first: "$content" },
+                "content": { $first: "$content" },
 				"comments": {
                     $push: {
                         comment_id: "$comments._id",
