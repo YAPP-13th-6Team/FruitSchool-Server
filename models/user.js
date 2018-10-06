@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const projection = { "_id": false, "user_id": false }
+const projection = { "_id": false }
 
 const User = new mongoose.Schema({
     user_id: String, 
