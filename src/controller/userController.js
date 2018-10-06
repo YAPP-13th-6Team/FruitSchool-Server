@@ -98,13 +98,9 @@ function updateGrade(req, res) {
     // ).catch(
     //     (err) => { respondOnError(err.message, res, err.statusCode)}
     // )
-    let upgrade = (req.user.company +1)
-    User.getUserById(id)
-    .then((result) =>{
-        // console.log(id + " " + result.grade)
-
-        return User.updateGrade(id, upgrade)
-    })
+    // let upgrade = (req.user.company +1)
+    let upgrade = req.params.grade
+    
     console.log(upgrade)
     User.updateGrade(id, upgrade)
     .then((updatedResult) => {

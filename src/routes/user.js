@@ -14,7 +14,7 @@ router.post('/kakao/signin', controller.kakaoSignin) //1. 로그인 ㄴㄴ
 router.post("/", userCheck, controller.createUser)  //ok
 
 // router.post("/duplicated", controller.checkDuplicatedUser)
-router.post("/grade",userCheck, controller.updateGrade)  // ok
+router.post("/grade/:grade",userCheck, controller.updateGrade)  // ok
 
 /* 승연 */
 router.get('/mypage', userCheck, controller.getUserPage) // 17. 마이페이지 
