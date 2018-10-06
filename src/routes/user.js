@@ -11,14 +11,14 @@ router.get("/", controller.getAllUser) // 모든 유저 조회 ok
 router.post('/kakao/signin', controller.kakaoSignin) //1. 로그인 ㄴㄴ
 
 /* 테스트용 createUser 실제로는 라우터에서 직접 접근이 아닌 카오톡 로그인을 통해 user 생성 ok */
-router.post("/", controller.createUser)  //ok
+router.post("/", userCheck, controller.createUser)  //ok
 
 // router.post("/duplicated", controller.checkDuplicatedUser)
-router.post("/grade", controller.updateGrade)  // ok
+router.post("/grade",userCheck, controller.updateGrade)  // ok
 
 /* 승연 */
 router.get('/mypage', userCheck, controller.getUserPage) // 17. 마이페이지 
 // router.get("/mypage/:id", controller.getUserPage) //마이페이지 ok
 // router.post('/edit', userCheck.check, upload.array('profile_img'), controller.setUserProfile) // 마이페이지 수정 
-router.get('/token', controller.token_test)
+router.get('/token', userCheck, controller.token_test)
 module.exports = router
