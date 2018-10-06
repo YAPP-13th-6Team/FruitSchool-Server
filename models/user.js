@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
-const projection = { "standard_tip._id": false, "intake_tip._id": false, "nutrition_tip._id": false }
 
 const User = new mongoose.Schema({
+    user_id: String, 
     nickname: String,
     grade: { type: Number, required: true, default: 0, min: 0, max: 2 },
     profile_image: {type: String, required: true, unique: true}},
@@ -29,20 +29,23 @@ User.statics.getUserByNickname = function(nickname) {
 /* find all user */
 User.statics.getAllUser = function(){
     console.log("User getAllUser")
-    return this.find({}, projection).exec()
+    return this.find({}).exec()
 }
 
 /* create one user */
-User.statics.createUser = function(nickname, profile_image){
+User.statics.createUser = function(user_id, nickname, profile_image){
+    console.log(user_id, nickname, profile_image)
     const user = new this({
-        nickname, profile_image,
+        user_id, 
+        nickname, 
+       profile_image,
         grade: 0
     })
     return user.save()
 }
 
 User.statics.updateGrade = function(id, upgrade){
-    return this.updateOne({ _id: id}, { $set: { grade: upgrade }, new: true  })
+    return this.updateOne({ _id: id}, { $set: { grade: upgrade }}, {new: true  })
     // return this.findAndModify({ query: { _id: id }, update: { $set: { grade: 0 } }, new: true });
 }
 
