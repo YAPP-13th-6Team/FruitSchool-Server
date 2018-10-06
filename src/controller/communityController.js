@@ -84,7 +84,7 @@ function deletePost(req, res) {
     // const userId = req.body.userId;
     const user_id = req.user.id
     const post = Posts.findById(req.params.id);
-    if (post.author === user_id) { //????
+    // if (post.author === user_id) { //????
         Posts.findByIdAndDelete(req.params.id)
         .then( result => {
             const message = "Success delete posts";
@@ -92,9 +92,9 @@ function deletePost(req, res) {
         }).catch( err => {
             respondOnError(err.message, res, err.statusCode);
         });
-    } else {
-        respondOnError(err.message, res, 403);
-    }
+    // } else {
+        // respondOnError(err.message, res, 403);
+    //}
     
 }
 // 글 상세보기 ok
