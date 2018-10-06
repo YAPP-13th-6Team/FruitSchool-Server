@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const projection = { "_id": false, "user_id": false }
 
 const User = new mongoose.Schema({
     user_id: String, 
@@ -17,7 +18,7 @@ User.statics.isUser = function(id){
 }
 /* find one user by using id */
 User.statics.getUserById = function(id) {
-    return this.findOne({ user_id:id }).exec()
+    return this.findOne({ user_id:id }, projection).exec()
 }
 
 /* find one user by using name */
