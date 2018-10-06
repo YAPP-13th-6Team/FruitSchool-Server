@@ -115,7 +115,7 @@ kakaoSignin : async function(jwtToken, accessToken){
     console.log(accessToken)
 
     let kakaoUserInfo = await request(option)
-        console.log(kakaoUserInfo); 
+        // console.log(kakaoUserInfo.id.type); 
         //jwt 있으면 유효한지 검사 
         if (jwtToken != undefined) {
             let userInfo = jwt.verify(jwtToken)
@@ -123,7 +123,7 @@ kakaoSignin : async function(jwtToken, accessToken){
             if (userInfo.id == kakaoUserInfo.id) {
                 console.log("Success Signin")
                 return {
-                    id: kakaoUserInfo.id,
+                    id: String(kakaoUserInfo.id),
                     grade: userInfo.grade,
                     authorization: jwtToken
                 }
@@ -132,7 +132,7 @@ kakaoSignin : async function(jwtToken, accessToken){
                 console.log("token expired, generate new token")
                 const newToken = jwt.sign(kakaoUserInfo.id, userInfo.grade)
                 return {
-                    id: kakaoUserInfo.id,
+                    id: String(kakaoUserInfo.id),
                     grade: userInfo.grade,
                     authorization: newToken
                 }
@@ -151,7 +151,7 @@ kakaoSignin : async function(jwtToken, accessToken){
                 console.log("other device login")
                 const newToken = jwt.sign(kakaoUserInfo.id, dbUserInfo.grade)
                 return {
-                    id: kakaoUserInfo.id,
+                    id: String(kakaoUserInfo.id),
                     grade: dbUserInfo.grade,
                     authorization: newToken
                 }
@@ -188,7 +188,7 @@ kakaoSignin : async function(jwtToken, accessToken){
                 
                 const newToken = jwt.sign(kakaoUserInfo.id, 0)
                 return {
-                    id: kakaoUserInfo.id,
+                    id: String(kakaoUserInfo.id),
                     grade: 0,
                     authorization: newToken
                 }
