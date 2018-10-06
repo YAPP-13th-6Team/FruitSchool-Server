@@ -54,10 +54,10 @@ function getAllPosts(req, res) {
     
 }
 
-// 글 작성하기 ---- 값이 안들어가는 문제
+// 글 작성하기
 function createPost(req, res) {
     var post = new Posts({
-      author: req.body.userId,
+      author: ObjectId(req.body.userId),
       content: req.body.content,
       tag: req.body.tags,
       post_image: req.body.images,
@@ -117,14 +117,15 @@ function getPost(req, res) {
 // 좋아요 ok
 function clickHeart(req, res) {
   const post = Posts.findById(req.params.id);
-  console.log(post)
   Posts.findByIdAndUpdate(req.params.id, {
     $inc: { likes : 1 }, 
     // 임시 유저정보임. 수정할 것.
-    $push: { heart: req.params.id}
+    $push: { heart: ObjectId(req.body.userId)}
   },{new: true},(err, like) => {
-    if (err) return respondOnError(err.message, res, err.statusCode);
-    return respondJson("Success", like, res, 200);
+    if (err) {
+		return respondOnError(err.message, res, err.statusCode);
+	}
+    return respondJson(`Success hearts ${req.params.id}`, like, res, 200);
   });
   
 }
