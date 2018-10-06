@@ -17,8 +17,8 @@ router.post("/", controller.createUser)  //ok
 router.post("/grade", controller.updateGrade)  // ok
 
 /* 승연 */
-// router.get('/mypage', userCheck.check, controller.getUserPage) // 17. 마이페이지 
-router.get("/mypage/:id", controller.getUserPage) //마이페이지 ok
+router.get('/mypage', userCheck, controller.getUserPage) // 17. 마이페이지 
+// router.get("/mypage/:id", controller.getUserPage) //마이페이지 ok
 // router.post('/edit', userCheck.check, upload.array('profile_img'), controller.setUserProfile) // 마이페이지 수정 
-
+router.get('/token', controller.token_test)
 module.exports = router

@@ -17,7 +17,7 @@ User.statics.isUser = function(id){
 }
 /* find one user by using id */
 User.statics.getUserById = function(id) {
-    return this.findOne({ _id:id }).exec()
+    return this.findOne({ user_id:id }).exec()
 }
 
 /* find one user by using name */
@@ -44,7 +44,7 @@ User.statics.createUser = function(user_id, nickname, profile_image){
 }
 
 User.statics.updateGrade = function(id, upgrade){
-    return this.updateOne({ _id: id}, { $set: { grade: upgrade }}, {new: true  })
+    return this.updateOne({ user_id: id}, { $set: { grade: upgrade }}, {new: true  })
     // return this.findAndModify({ query: { _id: id }, update: { $set: { grade: 0 } }, new: true });
 }
 

@@ -9,7 +9,7 @@ module.exports = {
         };
         const payload = {
             "id" : id,
-            "grade" : grade,
+            "company" : grade,
         };
         let token
         token = jwt.sign(payload, secretKey, options);
