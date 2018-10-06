@@ -1,36 +1,53 @@
-const Posts = require("../../models/posts")
-const { respondJson, respondOnError } = require('../lib/response');
+const Posts = require("../../models/posts");
+const Users = require("../../models/user");
+const { respondJson, respondOnError} = require('../lib/response');
 const projection = { "heart": false };
 const list_projection = { "heart": false , "comments": false };
 
-// 전체 글 가져오기 미완(댓글 개수는 추후 구현)
+// 전체 글 가져오기 우선 ok(댓글 개수는 우선 가라로)
 function getAllPosts(req, res) {
     // 최신순 정렬
     if (req.params.id == 0) {
-      Posts.aggregate([
-        // {$unwind:'$comments'},
-        // { 
-        //   $group: {_id: null, count: {$sum: 1}}
-        // },
-        {
-          $sort: { createdAt: -1 },
-        }
-        // ,{
-        //   populate: 'author',
-        // }
-      ]).exec(function(err, result) {
+        Posts.aggregate([
+            {
+                $lookup: {
+                "from": Users.collection.name,
+                "localField": "author",
+                "foreignField": "_id",
+                "as": "authorInfo"
+                }
+            }, {
+                $sort: {
+                    createdAt: -1
+                }
+            }
+        ])
+        .exec(function(err, result) {
         if (err) {
           respondOnError(err.message, res, 404);
         }
-        respondJson("Success", result, res, 200);
+        respondJson(`Success get posts list sorted by ${req.params.id}`, result, res, 200);
       }); 
     } else { // 좋아요 순 정렬
-        Posts.find({})
-        .populate('author').sort({ likes: -1 }).exec(function(err, result) {
+        Posts.aggregate([
+            {
+                $lookup: {
+                "from": Users.collection.name,
+                "localField": "author",
+                "foreignField": "_id",
+                "as": "authorInfo"
+                }
+            }, {
+                $sort: {
+                    likes: -1
+                }
+            }
+        ])
+        .exec(function(err, result) {
             if (err) {
                 respondOnError(err.message, res, err.statusCode);
             }
-            respondJson("Success", result, res, 200);
+            respondJson(`Success get posts list sorted by ${req.params.id}`, result, res, 200);
         });   
     }
     
@@ -41,8 +58,8 @@ function createPost(req, res) {
     var post = new Posts({
       author: req.body.userId,
       content: req.body.content,
-      tag: req.body.tag,
-      post_image: req.body.image,
+      tag: req.body.tags,
+      post_image: req.body.images,
     });
 
     post.save()
@@ -71,20 +88,26 @@ function deletePost(req, res) {
     }
     
 }
-// 글 상세보기 -- 유저정보 받아와서 추가해야함.
+// 글 상세보기 -- lookup and match 추가하기
 function getPost(req, res) {
+    // Posts.aggregate([
+    //     {
+    //         $match: {
+    //             _id: '5bb81f0140ac582a53a61b42'
+    //         }
+    //     },
+    //     {
+    //         $lookup: {
+    //         "from": Users.collection.name,
+    //         "localField": "author",
+    //         "foreignField": "_id",
+    //         "as": "authorInfo"
+    //         }
+    //     }
+    // ])
     Posts.findById(req.params.id)
     .then( post => {
-      const result = {
-        // 임시 유저정보
-        userInfo: {
-          user_id: 'dddd',
-          user_grade: 0,
-          user_image_path: 'imgimgimg'
-        },
-        post
-      };
-      respondJson("Success", result, res, 200);
+      respondJson("Success", post, res, 200);
     }).catch(err => {
         res.sendStatus(400);
     });
