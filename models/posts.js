@@ -24,7 +24,22 @@ const Post = new mongoose.Schema({
 /* 댓글달기 ok */
 Post.statics.postComment = function(id, comment, user_id){
     let Date = moment().format("YYYY-MM-DD HH:mm:ss")
-    return this.update({ _id: id}, { $addToSet: {comments: {author:user_id, content:comment, createAt:Date} } }, {$inc: {comment_count : 1}}).exec()
+    return this.update({ _id: id},
+        { $addToSet: {comments: {author:user_id, content:comment, createAt:Date} } }
+    ).exec()
+}
+Post.statics.comment_count = function (id){
+    let Date = moment().format("YYYY-MM-DD HH:mm:ss")
+    return this.update({ _id: id},
+        {$inc: {comment_count : 1}}
+    ).exec()
+}
+/* 댓글달기 ok */
+Post.statics.deleteComment = function(id){
+    // return this.findOneandUpdate({"comments._id": id}, 
+    // { $pull:
+    //     {"comments.$._id": {"comments."}}
+    // }).exec()
 }
 
 module.exports = mongoose.model('Post', Post)

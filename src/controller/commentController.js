@@ -12,20 +12,20 @@ function postComment(req, res){
     console.log(user_id,posts_id, comment )
 
     Posts.postComment(posts_id, comment, user_id)
-    .then(
+    .then((result)=>{
+        return Posts.comment_count(posts_id)}
+    ).then(
         result => {
-            // console.log("result " + result)
-            if(result.nModified === 0) throw new Error('not modified')
+            console.log("result " + result)
+            // if(result.nModified === 0) throw new Error('not modified')
             respondJson("Success post "+ posts_id + " comments ", result, res, 201)
         }
     ).catch(
         (err) => { respondOnError(err.message, res, err.statusCode)}
     )
 }
-
 /* 댓글 수정 */
 function editComment(req, res){
-
     const posts_id = req.params.id
     // posts_id = req.params.id
     const user_id = req.user.id
@@ -43,7 +43,16 @@ function editComment(req, res){
 }
 /* 댓글 삭제 */
 function deleteComment(req, res){
-
+    const posts_id = req.params.id
+    Posts.deleteComment(posts_id)
+    .then(
+        result => {
+            console.log("result " + result)
+            respondJson("Success delete "+ posts_id + " comments ", result, res, 201)
+        }
+    ).catch(
+        (err) => { respondOnError(err.message, res, err.statusCode)}
+    )
 }
 
 module.exports={
