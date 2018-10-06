@@ -41,7 +41,7 @@ async function token_test(req, res){
 
 /* 테스트용 createUser 실제로는 라우터에서 직접 접근이 아닌 카오톡 로그인을 통해 user 생성 */
 function createUser(req, res){
-    const user_id = "not kakao login"
+    // const user_id = "not kakao login"
     const nickname = req.body.nickname
     const profile_image = s3 + "/user/2018/10/01/default_img.png"
 
@@ -77,10 +77,9 @@ function getAllUser(req, res){
 //grade 입력 안받아도 될 듯. 
 function updateGrade(req, res) {
     /* test에서는 jwt대신 body로 id 받아옴 */
-    const id = req.body.id
-    // const id = req.user.id //추후 userCheck (jwtToken verify) 미들웨어 사용하면 이걸로 !
+    // const id = req.body.id
+    const id = req.user.id //추후 userCheck (jwtToken verify) 미들웨어 사용하면 이걸로 !
     console.log(id)
-
     // const grade = req.body.grade // 높여줄 등급  
     // User.getUserById(id)
     // .then(
@@ -99,13 +98,15 @@ function updateGrade(req, res) {
     // ).catch(
     //     (err) => { respondOnError(err.message, res, err.statusCode)}
     // )
-    let upgrade;
+    let upgrade = (req.user.company +1)
     User.getUserById(id)
     .then((result) =>{
-        console.log(id + " " + result.grade)
-        upgrade = (result.grade+1)
+        // console.log(id + " " + result.grade)
+
         return User.updateGrade(id, upgrade)
     })
+    console.log(upgrade)
+    User.updateGrade(id, upgrade)
     .then((updatedResult) => {
         console.log(updatedResult)
         respondJson("Success update grade to " + upgrade, upgrade, res, 201)

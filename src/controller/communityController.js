@@ -157,11 +157,12 @@ function getPost(req, res) {
 
 // 좋아요 ok
 function clickHeart(req, res) {
+    const id = req.user.id 
   const post = Posts.findById(req.params.id);
   Posts.findByIdAndUpdate(req.params.id, {
     $inc: { likes : 1 }, 
     // 임시 유저정보임. 수정할 것.
-    $push: { heart: ObjectId(req.body.userId)}
+    $push: { heart: ObjectId(id)}
   },{new: true},(err, like) => {
     if (err) {
 		return respondOnError(err.message, res, err.statusCode);

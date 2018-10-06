@@ -33,6 +33,7 @@ function getFruitsList(req, res){
 /* 특정 id의 과일 가져오기 */
 function getFruitsById(req, res) {
     const id = req.params.id
+    // const id = req.user.id
     Fruit.find({ _id: id }, projection, (err, fruits) => {
         if(err) {
             return res.sendStatus(400)
@@ -98,10 +99,11 @@ function getQuizsById(req, res) {
     //     }
     //     if(!fruit) {
     //         return res.sendStatus(404)
-    //     }
+    //     }cf
     //     return res.status(200).json(fruit.quizs)
     // })
-    id = req.params.id
+    // id = req.params.id
+    const id = req.param.id
     Fruit.getQuizsById(id)
     .then(
         result => {
