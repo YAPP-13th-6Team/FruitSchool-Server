@@ -166,7 +166,7 @@ kakaoSignin : async function(jwtToken, accessToken){
                     profile_img = 'https' + kakaoUserInfo.properties.thumbnail_image.split('http')[1]
                 }
                 else{
-                    profile_img = s3 + '/user/2018/10/01/default_img.png'
+                    profile_img = 'https://s3.ap-northeast-2.amazonaws.com/fruitschool/default_img.png'
                 }
                 console.log(profile_img)
 
