@@ -11,7 +11,7 @@ router.post('/',userCheck, controller.createPost);
 router.get('/lists/sort/:id', userCheck, controller.getAllPosts);
 
 // 커뮤니티 글 상세 조회 
-router.get('/:id', userCheck, controller.getPost);
+router.get('/:id',  controller.getPost);
 
 // 커뮤니티 글 삭제
 router.delete('/:id',userCheck, controller.deletePost);

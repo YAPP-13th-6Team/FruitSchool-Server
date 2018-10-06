@@ -65,7 +65,7 @@ function getAllPosts(req, res) {
 // 글 작성하기 -- 내 프로필 받아와야함....
 function createPost(req, res) {
     var post = new Posts({
-      author: ObjectId(req.body.userId),
+      author: ObjectId(req.user.idd),
       content: req.body.content,
       post_image: req.body.images,
     });
