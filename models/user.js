@@ -9,12 +9,11 @@ const User = new mongoose.Schema({
     versionKey: false
 })
 User.statics.isUser = function(id){
-    this.findOne({ _id: id }, (err, user) => {
-        if(user) {
-            return 1
-        }
-            return 0
-    })
+    // this.find({ user_id: id }, (err, user) => {
+    //     console.log(user, user.length)
+    //     return user
+    // })
+    return this.find({ user_id: id }).exec()
 }
 /* find one user by using id */
 User.statics.getUserById = function(id) {

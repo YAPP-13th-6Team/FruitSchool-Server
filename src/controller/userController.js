@@ -22,7 +22,7 @@ const s3 = require('../../config/s3').region
 async function kakaoSignin (req, res) {
     try {
         const result = await logic.kakaoSignin(req.headers.authorization, req.body.access_token)
-        respondJson("Success kakaoSignin ", result, res, 201)
+        await respondJson("Success kakaoSignin ", result, res, 201)
     }
     catch (error) {
         respondOnError(error.message, res, error.statusCode)
