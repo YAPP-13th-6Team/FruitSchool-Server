@@ -15,7 +15,7 @@ function getAllPosts(req, res) {
                 "from": Users.collection.name,
                 "localField": "author",
                 "foreignField": "_id",
-                "as": "authorInfo"
+                "as": "author_info"
                 }
             }, {
                 $sort: {
@@ -36,7 +36,7 @@ function getAllPosts(req, res) {
                 "from": Users.collection.name,
                 "localField": "author",
                 "foreignField": "_id",
-                "as": "authorInfo"
+                "as": "author_info"
                 }
             }, {
                 $sort: {
@@ -57,7 +57,7 @@ function getAllPosts(req, res) {
 // 글 작성하기
 function createPost(req, res) {
     var post = new Posts({
-      author: ObjectId(req.body.user_id),
+      author: ObjectId(req.body.userId),
       content: req.body.content,
       tag: req.body.tags,
       post_image: req.body.images,
@@ -94,20 +94,55 @@ function getPost(req, res) {
     Posts.aggregate([
 		{
             $match: {
-                _id: ObjectId(req.params.id)
+				_id: ObjectId(req.params.id)
             }
-        },
+		},
         {
             $lookup: {
             "from": Users.collection.name,
             "localField": "author",
             "foreignField": "_id",
-            "as": "authorInfo"
+            "as": "author_info"
             }
-		}
-		
+        },
+        
+		{
+			$unwind : "$comments"
+		},
+		{
+            $lookup: {
+				"from": Users.collection.name,
+				"localField": "comments.author",
+				"foreignField": "_id",
+				"as": "comments_info",
+            }
+		},
+		{
+			$group: {
+				"_id": "$_id",
+                "author": { $first: "$author" },
+				"createdAt": {$first: "$createdAt"},
+				"likes": {$first: "$likes"},
+				"post_image": { $first: "$post_image" },
+                "comment_count": { $first: "$comment_count" },
+				"author_info": { $first: "$author_info" },
+				"content": { $first: "$content" },
+				"comments": {
+                    $push: {
+                        comment_id: "$comments._id",
+			            user_id: "$comments.author",
+				        nickname: "$comments_info.nickname",
+				        grade: "$comments_info.grade",
+				        comment_content: "$comments.content",
+                        createdAt: "$comments.createdAt"
+                
+                    }
+                    
+				}
+			}
+		},
     ])
-    .then( post => {
+    .then( post => {	
       respondJson("Success", post, res, 200);
     }).catch(err => {
         res.sendStatus(400);
