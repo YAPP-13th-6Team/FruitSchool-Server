@@ -17,17 +17,6 @@ const Post = new mongoose.Schema({
     versionKey: false
 })
 
-/* 과일 리스트 다 가져오기 ok */
-Post.statics.getAllPosts = function(sort) {
-    //날짜 정렬 
-    // if(sort === 0){ 
-        return this.find().sort( { "date": 1 } ).exec()
-        // return this.find().sort(date).exec()
-    // }
-    // // 좋아요 개수 정렬
-    // return this.find().
-}
-
 /* 댓글달기 ok */
 Post.statics.postComment = function(id, comment, user_id){
     let Date = moment().format("YYYY-MM-DD HH:mm:ss")
