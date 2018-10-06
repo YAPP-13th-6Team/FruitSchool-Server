@@ -9,6 +9,7 @@ const Post = new mongoose.Schema({
     heart: [{type: Schema.Types.ObjectId, ref: 'User'}],
     tag:[{type:String, required: false}],
     post_image: [{type: String, required: false}],
+    comment_count: {type: Number, default: 0},
     comments: [{
         author: {type: Schema.Types.ObjectId, ref: 'User', required: true},
         content: {type: String, required: true},
