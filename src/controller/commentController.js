@@ -1,6 +1,5 @@
 const Posts = require("../../models/posts")
 const { respondJson, respondOnError } = require('../lib/response');
-
 // router.post("/:id", controller.postComment) //댓글 등록
 // router.post("/edit/:id", controller.editComment) //댓글 수정
 // router.delete("/:id", controller.deleteComment) //댓글 삭제 
@@ -11,7 +10,7 @@ function postComment(req, res){
     posts_id = req.params.id
     comment = req.body.content
     console.log(user_id,posts_id, comment )
-    
+
     Posts.postComment(posts_id, comment, user_id)
     .then(
         result => {
