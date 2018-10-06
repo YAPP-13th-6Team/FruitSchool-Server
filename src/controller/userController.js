@@ -116,14 +116,14 @@ function updateGrade(req, res) {
 /* 마이페이지 ok.*/
 function getUserPage(req, res){
     /* test에서는 jwt대신 body로 id 받아옴 */
-    const id = req.params.id
-    // const id = req.user.id //추후 userCheck (jwtToken verify) 미들웨어 사용하면 이걸로 !
+    // const id = req.params.id
+    const id = req.user.id //추후 userCheck (jwtToken verify) 미들웨어 사용하면 이걸로 !
     console.log(id)
 
     User.getUserById(id)
     .then(
         result => {
-            if(!result) throw new Error('quizs not found')
+            if(!result) throw new Error('users not found')
             console.log(result)
             respondJson("Success get user " + id, result, res, 201)
         }
