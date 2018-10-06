@@ -1,6 +1,6 @@
 const Posts = require("../../models/posts");
 const Users = require("../../models/user");
-// const ObjectId = require("mongoose").Types.ObjectId;
+const ObjectId = require("mongoose").Types.ObjectId;
 const { respondJson, respondOnError} = require('../lib/response');
 
 // 전체 글 가져오기 우선 ok(댓글 개수는 우선 가라로)
