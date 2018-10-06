@@ -1,5 +1,6 @@
 const Posts = require("../../models/posts");
 const Users = require("../../models/user");
+const ObjectId = require("mongoose").Types.ObjectId;
 const { respondJson, respondOnError} = require('../lib/response');
 const projection = { "heart": false };
 const list_projection = { "heart": false , "comments": false };
@@ -88,24 +89,24 @@ function deletePost(req, res) {
     }
     
 }
-// 글 상세보기 -- lookup and match 추가하기
+// 글 상세보기 ok
 function getPost(req, res) {
-    // Posts.aggregate([
-    //     {
-    //         $match: {
-    //             _id: '5bb81f0140ac582a53a61b42'
-    //         }
-    //     },
-    //     {
-    //         $lookup: {
-    //         "from": Users.collection.name,
-    //         "localField": "author",
-    //         "foreignField": "_id",
-    //         "as": "authorInfo"
-    //         }
-    //     }
-    // ])
-    Posts.findById(req.params.id)
+    Posts.aggregate([
+		{
+            $match: {
+                _id: ObjectId(req.params.id)
+            }
+        },
+        {
+            $lookup: {
+            "from": Users.collection.name,
+            "localField": "author",
+            "foreignField": "_id",
+            "as": "authorInfo"
+            }
+		}
+		
+    ])
     .then( post => {
       respondJson("Success", post, res, 200);
     }).catch(err => {
