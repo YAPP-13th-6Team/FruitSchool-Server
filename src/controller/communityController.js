@@ -101,7 +101,7 @@ function getPost(req, res) {
     Posts.aggregate([
 		{
             $match: {
-				_id: ObjectId(req.user.idd)
+				_id: ObjectId(req.params.id)
             }
 		},
         {
