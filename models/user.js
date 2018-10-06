@@ -4,7 +4,7 @@ const User = new mongoose.Schema({
     user_id: String, 
     nickname: String,
     grade: { type: Number, required: true, default: 0, min: 0, max: 2 },
-    profile_image: {type: String, required: true, unique: true}},
+    profile_image: {type: String, required: true}},
 {
     versionKey: false
 })

@@ -6,7 +6,7 @@ const controller = require("../controller/communityController")
 router.post('/', controller.createPost);
 
 // 커뮤니티 글 리스트 가져오기
-router.get('/list/sort/:id', controller.getAllPosts);
+router.get('/lists/sort/:id', controller.getAllPosts);
 
 // 커뮤니티 글 상세 조회
 router.get('/:id', controller.getPost);

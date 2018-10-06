@@ -7,9 +7,9 @@ const { respondJson, respondOnError } = require('../lib/response');
 
 /* 댓글 등록 ok*/
 function postComment(req, res){
-    posts_id = req.params.id
+    posts_id = req.params.post_id
     // user_id = req.user.id
-    user_id = req.body.id
+    user_id = req.body.user_id
     comment = req.body.comment
     Posts.postComment(posts_id, comment, user_id)
     .then(

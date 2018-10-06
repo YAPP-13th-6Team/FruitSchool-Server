@@ -57,7 +57,7 @@ function getAllPosts(req, res) {
 // 글 작성하기
 function createPost(req, res) {
     var post = new Posts({
-      author: ObjectId(req.body.userId),
+      author: ObjectId(req.body.user_id),
       content: req.body.content,
       tag: req.body.tags,
       post_image: req.body.images,

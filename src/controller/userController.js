@@ -31,7 +31,7 @@ async function kakaoSignin (req, res) {
 
 /* 테스트용 createUser 실제로는 라우터에서 직접 접근이 아닌 카오톡 로그인을 통해 user 생성 */
 function createUser(req, res){
-    const user_id = req.body.user_id
+    const user_id = "not kakao login"
     const nickname = req.body.nickname
     const profile_image = s3 + "/user/2018/10/01/default_img.png"
 
@@ -72,8 +72,6 @@ function updateGrade(req, res) {
     console.log(id)
 
     // const grade = req.body.grade // 높여줄 등급  
-
-
     // User.getUserById(id)
     // .then(
     //     result => {
@@ -91,8 +89,6 @@ function updateGrade(req, res) {
     // ).catch(
     //     (err) => { respondOnError(err.message, res, err.statusCode)}
     // )
-
-
     let upgrade;
     User.getUserById(id)
     .then((result) =>{
