@@ -2,6 +2,7 @@ const User = require("../../models/user")
 const logic = require("../logic/userLogic")
 const { respondJson, respondOnError } = require('../lib/response');
 const s3 = require('../../config/s3').region
+const token = require('../lib/jwt')
 
 /* status CODE 다시 정리 필요 */
 
@@ -22,7 +23,16 @@ const s3 = require('../../config/s3').region
 async function kakaoSignin (req, res) {
     try {
         const result = await logic.kakaoSignin(req.headers.authorization, req.body.access_token)
-        respondJson("Success kakaoSignin ", result, res, 201)
+        await respondJson("Success kakaoSignin ", result, res, 201)
+    }
+    catch (error) {
+        respondOnError(error.message, res, error.statusCode)
+    }
+}
+async function token_test(req, res){
+    try {
+        const result = await token.verify('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTMwNTMzMzMxLCJjb21wYW55IjowLCJpYXQiOjE1Mzg4MjYzNjgsImV4cCI6MTYzMzQzNDM2OH0.BLX6AcfNISr6HrethakFzvmE529j9VIqlG2yok0j7Jc')
+        await respondJson("Success ", result, res, 201)
     }
     catch (error) {
         respondOnError(error.message, res, error.statusCode)
@@ -31,7 +41,7 @@ async function kakaoSignin (req, res) {
 
 /* 테스트용 createUser 실제로는 라우터에서 직접 접근이 아닌 카오톡 로그인을 통해 user 생성 */
 function createUser(req, res){
-    const user_id = req.body.user_id
+    const user_id = "not kakao login"
     const nickname = req.body.nickname
     const profile_image = s3 + "/user/2018/10/01/default_img.png"
 
@@ -72,8 +82,6 @@ function updateGrade(req, res) {
     console.log(id)
 
     // const grade = req.body.grade // 높여줄 등급  
-
-
     // User.getUserById(id)
     // .then(
     //     result => {
@@ -91,8 +99,6 @@ function updateGrade(req, res) {
     // ).catch(
     //     (err) => { respondOnError(err.message, res, err.statusCode)}
     // )
-
-
     let upgrade;
     User.getUserById(id)
     .then((result) =>{
@@ -120,8 +126,8 @@ function updateGrade(req, res) {
 /* 마이페이지 ok.*/
 function getUserPage(req, res){
     /* test에서는 jwt대신 body로 id 받아옴 */
-    const id = req.params.id
-    // const id = req.user.id //추후 userCheck (jwtToken verify) 미들웨어 사용하면 이걸로 !
+    // const id = req.params.id
+    const id = req.user.id //추후 userCheck (jwtToken verify) 미들웨어 사용하면 이걸로 !
     console.log(id)
 
     User.getUserById(id)
@@ -152,7 +158,8 @@ module.exports = {
     createUser,
     getAllUser,
     updateGrade,
-    getUserPage
+    getUserPage,
+    token_test
     // setUserProfileImage
 }
 
