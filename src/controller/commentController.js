@@ -25,6 +25,7 @@ function postComment(req, res){
 
 /* 댓글 수정 */
 function editComment(req, res){
+    const comment = Post.get
     posts_id = req.params.id
     // user_id = req.user.id
     user_id = req.body.id
@@ -40,7 +41,6 @@ function editComment(req, res){
         (err) => { respondOnError(err.message, res, err.statusCode)}
     )
 }
-
 /* 댓글 삭제 */
 function deleteComment(req, res){
 

@@ -31,11 +31,11 @@ async function kakaoSignin (req, res) {
 
 /* 테스트용 createUser 실제로는 라우터에서 직접 접근이 아닌 카오톡 로그인을 통해 user 생성 */
 function createUser(req, res){
-    let id = req.body.id
-    let nickname = req.body.nickname
-    let profile_image = s3 + "/user/2018/10/01/default_img.png"
+    const user_id = req.body.user_id
+    const nickname = req.body.nickname
+    const profile_image = s3 + "/user/2018/10/01/default_img.png"
 
-    User.createUser(id, nickname, profile_image)
+    User.createUser(user_id, nickname, profile_image)
     .then(
         result => {
             if(!result) throw new Error('quizs not found')
@@ -46,7 +46,6 @@ function createUser(req, res){
         (err) => { respondOnError(err.message, res, err.statusCode)}
     )
 }
-
 
 /* 추후 admin 계정 확인 작업 추가 예정*/
 function getAllUser(req, res){

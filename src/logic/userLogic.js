@@ -1,7 +1,7 @@
 const User = require('../../models/user')
 const request = require('request-promise');
 const jwt = require('../lib/jwt')
-const s3 = require('../../config/s3').location
+const s3 = require('../../config/s3').region
 
 
     // check username duplication
@@ -173,7 +173,6 @@ kakaoSignin : async function(jwtToken, accessToken){
 
                 User.createUser(kakaoUserInfo.id, kakaoUserInfo.properties.nickname, profile_img)
                 .then((result) => {
-                    console.log(result)
                     return newToken = jwt.sign(kakaoUserInfo.id, 0)
                 }).then((result) => {
                     console.log(result)
