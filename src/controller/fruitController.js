@@ -99,11 +99,11 @@ function getQuizsById(req, res) {
     //     }
     //     if(!fruit) {
     //         return res.sendStatus(404)
-    //     }
+    //     }cf
     //     return res.status(200).json(fruit.quizs)
     // })
     // id = req.params.id
-    const id = req.user.id
+    const id = req.param.id
     Fruit.getQuizsById(id)
     .then(
         result => {
