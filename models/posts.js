@@ -34,6 +34,7 @@ Post.statics.comment_count = function (id){
         {$inc: {comment_count : 1}}
     ).exec()
 }
+
 /* 댓글달기 ok */
 Post.statics.deleteComment = function(id){
     // return this.findOneandUpdate({"comments._id": id}, 

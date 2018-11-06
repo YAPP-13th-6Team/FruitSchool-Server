@@ -7,8 +7,8 @@ const user = require('./user')
 const comment = require('./comments')
 const community = require('./community')
 
-
-router.use("/fruits", fruit)
+router.use("/", fruit)
+/* 이 밑은 안씀 */ 
 router.use("/commonsenses", common_sense)
 router.use("/users", user)
 router.use("/comments", comment)

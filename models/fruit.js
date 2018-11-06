@@ -67,12 +67,12 @@ Fruit.statics.getFruitsList = function(title){
     return this.find({}).select('_id title image_path grade').sort('grade').exec()
 }
 
-/* find one fruit by using id or grade */
+/* find one fruit by using id  */
 Fruit.statics.getFruitById = function(id) {
     return this.find({id}, projection).exec()
 }
 
-/* find one fruit by using id or grade */
+/* find one fruit by using grade */
 Fruit.statics.getFruitByGrade = function(grade) {
     return this.find({grade}, projection).exec()
 }

@@ -14,5 +14,4 @@ function readByGrade(req, res) {
         return res.status(200).json(commonSenses)
     })
 }
-
 module.exports = { readByGrade }

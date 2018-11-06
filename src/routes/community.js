@@ -5,18 +5,18 @@ const userCheck = require('../middleware/userCheck')
 
 
 // 커뮤니티 글 작성 -- 미완
-router.post('/',userCheck, controller.createPost);
+router.post('/',controller.createPost);
 
 // 커뮤니티 글 리스트 가져오기
-router.get('/lists/sort/:id', userCheck, controller.getAllPosts);
+router.get('/lists/sort/:id', controller.getAllPosts);
 
 // 커뮤니티 글 상세 조회 
 router.get('/:id',  controller.getPost);
 
 // 커뮤니티 글 삭제
-router.delete('/:id',userCheck, controller.deletePost);
+router.delete('/:id', controller.deletePost);
 
 // 글 좋아요
-router.put('/heart/:id', userCheck,controller.clickHeart);
+router.put('/heart/:id', controller.clickHeart);
 
 module.exports = router

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const projection = { "common_sense_tips": false}
 
 const quizSchema = new mongoose.Schema({
     level: Number,
@@ -16,7 +17,7 @@ const commonSenseSchema = new mongoose.Schema({
     versionKey: false
 })
 
-const schema = new mongoose.Schema({
+const common_sense = new mongoose.Schema({
     grade: { type: Number, required: true, default: 0, min: 0, max: 2 },
     common_sense_tips: [commonSenseSchema],
     quizs: [quizSchema]
@@ -24,4 +25,9 @@ const schema = new mongoose.Schema({
     versionKey: false
 })
 
-module.exports = mongoose.model("common_sense", schema)
+common_sense.statics.getCommonSenseByGrade = function(grade){
+        console.log(grade)
+        return this.find({grade}, projection).exec()
+
+}
+module.exports = mongoose.model("common_sense", common_sense)
