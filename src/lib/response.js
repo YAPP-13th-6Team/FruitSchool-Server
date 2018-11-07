@@ -9,7 +9,6 @@ const respondJson = (message, obj, res, status) => {
       data: (obj) ? obj : {}
     });
 }
-
 const respondquizJson = (message, obj, res, status) =>{
   console.log(`${moment().format('MMMM Do YYYY, h:mm:ss a')} => message : ${message} / status : ${status}`)
   var result = new Array()
