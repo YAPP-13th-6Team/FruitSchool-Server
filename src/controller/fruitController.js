@@ -53,29 +53,25 @@ function getExamsByGrade(req, res){
     let quizsResult = []
 
     CommonSense.getCommonSenseByGrade(grade)
-    .then(
-        result => {
+    .then(result => {
             if(!result) throw new Error('quizs not found')
-            // console.log(result)
             result.forEach(commonSense => {
                 commonSense.quizs.forEach(quiz => {
                     quizsResult.push(quiz)
                 })
             })
+            return Fruit.getFruitByGrade(grade)
+    }).then(
+         result => {
+            if(!result) throw new Error('quizs not found')
+            result.forEach(fruit => {
+                quizsResult.push(fruit)
+            })
+            return quizsResult
         }
-    ).catch(
-        (err) => { respondOnError(err.message, res, 404)}
     )
-
-    Fruit.getFruitByGrade(grade)
-    .then(
-            result => {
-                if(!result) throw new Error('quizs not found')
-                console.log(result)
-                result.forEach(fruit => {
-                    quizsResult.push(fruit)
-                })
-            }
+    .catch(
+        (err) => { respondOnError(err.message, res, 404)}
     )
     .then(
         result => {
