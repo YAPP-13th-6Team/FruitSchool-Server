@@ -62,9 +62,9 @@ Fruit.statics.getAllFruit = function() {
 Fruit.statics.getFruitsList = function(title){
     if(title){
         console.log(title)
-        return this.find({title}).select('_id title image_path grade').sort('grade').exec()
+        return this.find({title}).select('_id title english image_path grade').sort('grade').exec()
     }
-    return this.find({}).select('_id title image_path grade').sort('grade').exec()
+    return this.find({}).select('_id title english image_path grade').sort('grade').exec()
 }
 
 /* find one fruit by using id  */
