@@ -74,7 +74,7 @@ Fruit.statics.getFruitById = function(id) {
 
 /* find one fruit by using grade */
 Fruit.statics.getFruitByGrade = function(grade) {
-    return this.find({grade}, projection).exec()
+    return this.find({grade}).select('_id title quizs').exec()
 }
 
 /* find one fruit by using id or grade */

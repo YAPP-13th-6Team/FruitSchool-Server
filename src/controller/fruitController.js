@@ -40,8 +40,7 @@ function getQuizsById(req, res) {
         result => {
             if(!result) throw new Error('quizs not found')
             console.log(result)
-            // respondJson("Success get guiz " + result.title, result, res, 201)
-            respondquizJson("Success get guiz " + result.title, result, res, 201)
+            respondquizJson("Success get guiz " + result.title, [result], res, 201)
         }
     ).catch(
         (err) => { respondOnError(err.message, res, 500)}
@@ -72,11 +71,9 @@ function getExamsByGrade(req, res){
     .then(
             result => {
                 if(!result) throw new Error('quizs not found')
-                // console.log(result)
+                console.log(result)
                 result.forEach(fruit => {
-                    fruit.quizs.forEach(quiz => {
-                       quizsResult.push(quiz)
-                   })
+                    quizsResult.push(fruit)
                 })
             }
     )
