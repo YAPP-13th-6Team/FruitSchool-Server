@@ -40,7 +40,7 @@ function getQuizsById(req, res) {
         result => {
             if(!result) throw new Error('quizs not found')
             console.log(result)
-            respondquizJson("Success get guiz " + result.title, [result], res, 201)
+            respondquizJson("Success get guiz" + result.title, [result], res, 201)
         }
     ).catch(
         (err) => { respondOnError(err.message, res, 500)}
@@ -87,7 +87,7 @@ function getExamsByGrade(req, res){
                 quizsResult[j] = x
             }
             console.log(quizsResult)
-            respondquizJson("Success get exam by grade ", quizsResult, res, 201)
+            respondquizJson("Success get exam by grade", quizsResult, res, 201)
         }
     ).catch(
         (err) => { respondOnError(err.message, res, 404)}
@@ -152,13 +152,11 @@ function getFruitsListByTitle(req, res){
 /* 특정 id의 과일 가져오기 */
 function getFruitsById(req, res) {
     const id = req.params.id
-    // const id = req.user.id
     Fruit.aggregate([
         { $match: {_id: ObjectId(id) }},
-        { $project: {"standard_tip._id": false, "intake_tip._id": false, "nutrition_tip._id": false}}
+        { $project: {"standard_tip._id": false, "intake_tip._id": false, "nutrition_tip._id": false, "quizs":false}}
     ]).then(result => {
-        // res.status(200).json(result)
-        respondJson("Success get fruits " + id, result, res, 201)
+        respondJson("Success get fruits" + id, result, res, 201)
     }).catch(
         (err) => { respondOnError(err.message, res, 500)}
     )
