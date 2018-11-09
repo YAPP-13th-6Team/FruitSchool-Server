@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const projection = { "standard_tip._id": false, "intake_tip._id": false, "nutrition_tip._id": false }
+const ObjectId = require("mongoose").Types.ObjectId;
 
 const quizSchema = new mongoose.Schema({
     level: Number,
@@ -68,8 +69,11 @@ Fruit.statics.getFruitsList = function(title){
 }
 
 /* find one fruit by using id  */
-Fruit.statics.getFruitById = function(id) {
-    return this.find({id}, projection2).exec()
+Fruit.statics.getFruitsById = function(id) {
+    return this.aggregate([
+        { $match: {_id: ObjectId(id) }},
+        { $project: {"standard_tip._id": false, "intake_tip._id": false, "nutrition_tip._id": false, "quizs":false}}
+    ]).exec()
 }
 
 /* find one fruit by using grade */
@@ -81,5 +85,6 @@ Fruit.statics.getFruitByGrade = function(grade) {
 Fruit.statics.getQuizsById = function(id) {
     return this.findOne({ _id: id }).select('_id title quizs').exec()
 }
+
 
 module.exports = mongoose.model("Fruit", Fruit)
