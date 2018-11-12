@@ -75,7 +75,7 @@ const getExamsByGrade = async(req, res) => {
                 quizsResult.push(quiz)
             })
         })
-        quizsResult = quizsResult.concat(fruit_quizs)
+        quizsResult = await quizsResult.concat(fruit_quizs)
         for(let i=quizsResult.length; i; i-=1) {
             let j = Math.floor(Math.random() * i)
             let x = quizsResult[i - 1]

@@ -9,10 +9,10 @@ const respondJson = (message, obj, res, status) => {
       data: (obj) ? obj : {}
     });
 }
-const respondquizJson = (message, obj, res, status) =>{
+const respondquizJson = async(message, obj, res, status) =>{
   console.log(`${moment().format('MMMM Do YYYY, h:mm:ss a')} => message : ${message} / status : ${status}`)
   var result = new Array()
-  obj.forEach(aobj =>{
+  await obj.forEach(aobj =>{
       var aquiz = new Object()
       if(aobj.quizs){
         aobj.quizs.forEach(quizs=>{
