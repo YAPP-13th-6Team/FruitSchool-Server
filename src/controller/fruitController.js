@@ -17,7 +17,6 @@ const getAllFruit = async(req, res)=> {
 }
 
 const getFruitsList = async(req, res)=>{
-
     try{
         let fruitlists  =await Fruit.getFruitsList()
         console.log(fruitlists)
@@ -47,27 +46,35 @@ const getExamsByGrade = async(req, res) => {
     try{
         const grade = req.params.grade
         let quizsResult = []
-
+        let fruit_quizs = []
+        let easy  = await Fruit.getFruitByGrade(grade)
+        easy.forEach(fruit => {
+            quizsResult.push(fruit)
+        })
+   
+        for(let i=quizsResult.length; i; i-=1) {
+            let j = Math.floor(Math.random() * i)
+            let x = quizsResult[i - 1]
+            quizsResult[i - 1] = quizsResult[j]
+            quizsResult[j] = x
+        }
         let difficult = await CommonSense.getCommonSenseByGrade(grade)
         difficult.forEach(commonSense => {
             commonSense.quizs.forEach(quiz => {
                 quizsResult.push(quiz)
             })
         })
+        console.log(quizsResult);
+        if(quizsResult.length > 10){count=10;}
+        else{count = quizsResult.length}
 
-        let easy  = await Fruit.getFruitByGrade(grade)
-        easy.forEach(fruit => {
-            quizsResult.push(fruit)
-        })
-
-        let count = quizsResult.length
         for(let i=count; i; i-=1) {
             let j = Math.floor(Math.random() * i)
             let x = quizsResult[i - 1]
             quizsResult[i - 1] = quizsResult[j]
             quizsResult[j] = x
         }
-        console.log(quizsResult)
+        // console.log(quizsResult)
         respondquizJson("Success get exam by grade", quizsResult, res, 201)
     }catch(err){
         console.log(err)

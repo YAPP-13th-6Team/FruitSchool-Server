@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const controller = require("../controller/fruitController")
-const userCheck = require('../middleware/userCheck')
+// const userCheck = require('../middleware/userCheck')
 
 router.get("/lists", controller.getFruitsList) // 과일 도감 리스트
 router.get("/", controller.getAllFruit) //모든 과일 정보

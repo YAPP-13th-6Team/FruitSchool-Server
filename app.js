@@ -7,8 +7,6 @@ var bodyParser = require('body-parser');
 const config = require('./config/secretKey');
 const database = require("./config/database");
 var app = express();
-
-
 app.set('jwt-token', config.secret);
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -22,7 +20,7 @@ app.use('/', require('./src/routes'))
 
 app.listen(3000, () => {
   database()
-  console.log("3000번 포트에서 서버 실행중...")
+  console.log("running 3000 fruits school...")
 })
 
 module.exports = app;
