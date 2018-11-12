@@ -50,6 +50,9 @@ const getQuizsById = async(req, res) =>{
 const getExamsByGrade = async(req, res) => {
     try{
         const grade = req.params.grade
+        if(grade >= 3) {
+            throw new Error('url params must be 0~2')
+        }
         let quizsResult = []
         let fruit_quizs = []
 
@@ -65,7 +68,6 @@ const getExamsByGrade = async(req, res) => {
             fruit_quizs[j] = x
         }
         if(fruit_quizs.length > 10){fruit_quizs.slice(0,8)}
-        // console.log(fruit_quizs.length)
 
         let difficult = await CommonSense.getCommonSenseByGrade(grade)
         difficult.forEach(commonSense => {
@@ -80,11 +82,12 @@ const getExamsByGrade = async(req, res) => {
             quizsResult[i - 1] = quizsResult[j]
             quizsResult[j] = x
         }
-        console.log(quizsResult)
+        // console.log(quizsResult)
         respondquizJson("Success get exam by grade", quizsResult, res, 201)
     }catch(err){
         console.log(err)
-        respondOnError(err.message, res, err.statusCode)
+        if(err.message == 'url params must be 0~2'){respondOnError(err.message, res, 400)}
+        else{respondOnError(err.message, res, err.statusCode)}
     }
 }
 
