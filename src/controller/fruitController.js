@@ -21,6 +21,7 @@ const getFruitsList = async(req, res)=>{
         let fruitlists  =await Fruit.getFruitsList()
         console.log(fruitlists)
         respondJson("Success get fruits list sorted by grade", fruitlists, res, 201)
+        
     }catch(err){
         console.log(err)
         respondOnError(err.message, res, err.statusCode)
@@ -31,13 +32,17 @@ const getFruitsList = async(req, res)=>{
 const getQuizsById = async(req, res) =>{
     try{
         const id = req.params.id
-        let quiz = await 
-        Fruit.getQuizsById(id)
-        console.log(quiz);
-        respondquizJson("Success get guiz " + quiz.title, [quiz], res, 201)
+        if(is_objectid(id)){
+            let quiz = await Fruit.getQuizsById(id)
+            console.log(quiz)
+            respondquizJson("Success get guiz " + quiz.title, [quiz], res, 201)
+        }else{
+            throw new Error('fruit not found')
+        }
     }catch(err){
         console.log(err)
-        respondOnError(err.message, res, err.statusCode)
+        if(err.message == 'fruit not found'){respondOnError(err.message, res, 400)}
+        else{respondOnError(err.message, res, err.statusCode)}
     }
 }
 
