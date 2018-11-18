@@ -12,6 +12,7 @@ const respondJson = (message, obj, res, status) => {
 const respondquizJson = async(message, obj, res, status) =>{
   console.log(`${moment().format('MMMM Do YYYY, h:mm:ss a')} => message : ${message} / status : ${status}`)
   var result = new Array()
+
   await obj.forEach(aobj =>{
       var aquiz = new Object()
       if(aobj.quizs){
@@ -21,6 +22,7 @@ const respondquizJson = async(message, obj, res, status) =>{
           aquiz.incorrect_answers = (quizs.incorrect_answers) ? quizs.incorrect_answers : []
           aquiz.title = (quizs.title) ? quizs.title : ""
           aquiz.correct_answer = (quizs.correct_answer) ? quizs.correct_answer : ""
+          result.push(aquiz)
         })
       }
       else{
@@ -29,8 +31,9 @@ const respondquizJson = async(message, obj, res, status) =>{
         aquiz.incorrect_answers = (aobj.incorrect_answers) ? aobj.incorrect_answers : []
         aquiz.title = (aobj.title) ? aobj.title : ""
         aquiz.correct_answer = (aobj.correct_answer) ? aobj.correct_answer : ""
+        result.push(aquiz)
       }
-      result.push(aquiz)
+      
   })
   
   res.status(status)
