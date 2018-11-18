@@ -33,7 +33,6 @@ const respondquizJson = async(message, obj, res, status) =>{
         aquiz.correct_answer = (aobj.correct_answer) ? aobj.correct_answer : ""
         result.push(aquiz)
       }
-      
   })
   
   res.status(status)
