@@ -17,6 +17,7 @@ const respondquizJson = async(message, obj, res, status) =>{
       var aquiz = new Object()
       if(aobj.quizs){
         aobj.quizs.forEach(quizs=>{
+          var aquiz = new Object()
           aquiz.fruit_title =  aobj.title
           aquiz.fruit_id = aobj._id
           aquiz.incorrect_answers = (quizs.incorrect_answers) ? quizs.incorrect_answers : []
