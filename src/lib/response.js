@@ -14,10 +14,12 @@ const respondquizJson = async(message, obj, res, status) =>{
   var result = new Array()
 
   await obj.forEach(aobj =>{
-      var aquiz = new Object()
+      
       if(aobj.quizs){
+        console.log(aobj.quizs)
         aobj.quizs.forEach(quizs=>{
           var aquiz = new Object()
+          console.log(quizs)
           aquiz.fruit_title =  aobj.title
           aquiz.fruit_id = aobj._id
           aquiz.incorrect_answers = (quizs.incorrect_answers) ? quizs.incorrect_answers : []
@@ -27,6 +29,7 @@ const respondquizJson = async(message, obj, res, status) =>{
         })
       }
       else{
+        var aquiz = new Object()
         aquiz.fruit_title =  ""
         aquiz.fruit_id = ""
         aquiz.incorrect_answers = (aobj.incorrect_answers) ? aobj.incorrect_answers : []
