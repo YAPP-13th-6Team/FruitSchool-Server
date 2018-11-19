@@ -76,7 +76,7 @@ const getExamsByGrade = async(req, res) => {
         }
         console.log(fruit_quizs.length)
         if(fruit_quizs.length > 10){ 
-            await fruit_quizs.slice(0,8) 
+            await fruit_quizs.splice(0,8) 
             console.log(fruit_quizs.length)
         }
 
