@@ -75,7 +75,10 @@ const getExamsByGrade = async(req, res) => {
             fruit_quizs[j] = x
         }
         console.log(fruit_quizs.length)
-        if(fruit_quizs.length > 10){fruit_quizs.slice(0,8)}
+        if(fruit_quizs.length > 10){ 
+            await fruit_quizs.slice(0,8) 
+            console.log(fruit_quizs.length)
+        }
 
         let difficult = await CommonSense.getCommonSenseByGrade(grade)
         difficult.forEach(commonSense => {
