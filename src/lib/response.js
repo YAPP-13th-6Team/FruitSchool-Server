@@ -14,7 +14,6 @@ const respondquizJson = async(message, obj, res, status) =>{
   var result = new Array()
 
   await obj.forEach(aobj =>{
-      
       if(aobj.quizs){
         console.log(aobj.quizs)
         aobj.quizs.forEach(quizs=>{

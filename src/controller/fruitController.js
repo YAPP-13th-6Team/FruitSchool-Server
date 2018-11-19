@@ -58,9 +58,16 @@ const getExamsByGrade = async(req, res) => {
 
         let easy  = await Fruit.getFruitByGrade(grade)
         easy.forEach(fruit => {
-            fruit_quizs.push(fruit)
+            // console.log(fruit)
+            let j = Math.floor(Math.random() * fruit.quizs.length)
+            let afruit = {
+                _id:fruit._id,
+                title: fruit.title,
+                quizs : [fruit.quizs[j]]
+            }
+            // console.log(quiz)
+            fruit_quizs.push(afruit)
         })
-   
         for(let i=fruit_quizs.length; i; i-=1) {
             let j = Math.floor(Math.random() * i)
             let x = fruit_quizs[i - 1]
@@ -82,7 +89,7 @@ const getExamsByGrade = async(req, res) => {
             quizsResult[i - 1] = quizsResult[j]
             quizsResult[j] = x
         }
-        // console.log(quizsResult)
+        console.log(quizsResult)
         respondquizJson("Success get exam by grade", quizsResult, res, 201)
     }catch(err){
         console.log(err)
