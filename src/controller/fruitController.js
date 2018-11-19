@@ -74,6 +74,7 @@ const getExamsByGrade = async(req, res) => {
             fruit_quizs[i - 1] = fruit_quizs[j]
             fruit_quizs[j] = x
         }
+        console.log(fruit_quizs.length)
         if(fruit_quizs.length > 10){fruit_quizs.slice(0,8)}
 
         let difficult = await CommonSense.getCommonSenseByGrade(grade)
@@ -89,6 +90,7 @@ const getExamsByGrade = async(req, res) => {
             quizsResult[i - 1] = quizsResult[j]
             quizsResult[j] = x
         }
+        console.log(quizsResult.length)
         console.log(quizsResult)
         respondquizJson("Success get exam by grade", quizsResult, res, 201)
     }catch(err){
