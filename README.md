@@ -64,6 +64,7 @@
 - MongoDB
 - express.js
 - Microsoft Azure Blob Storage
+- async/await
 ### 
 
 
